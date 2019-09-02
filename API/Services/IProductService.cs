@@ -10,7 +10,9 @@ namespace API.Services
 
         Product GetProduct(string referenceCode);
 
-        Product UpsertProduct(Product product);   
+        Product CreateProduct(Product product);   
+
+        Product UpdateProduct(Product product);   
 
         string DeleteProduct(string referenceCode);
     }

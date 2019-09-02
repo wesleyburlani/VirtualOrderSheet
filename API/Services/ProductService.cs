@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using API.Exceptions;
 using API.Models;
 using API.Repositories.Storage;
 
@@ -12,6 +13,14 @@ namespace API.Services
         }
 
         IDatabase Database { get; set; }
+
+        public Product CreateProduct(Product product)
+        {
+            Product reference = Database.GetProduct(product.ReferenceCode);
+            if(reference != null)
+                throw new CreateProductException("Já existe um produto com esse reference code");
+            return Database.UpsertProduct(product);
+        }
 
         public string DeleteProduct(string referenceCode)
         {
@@ -28,7 +37,7 @@ namespace API.Services
             return Database.GetProducts();
         }
 
-        public Product UpsertProduct(Product product)
+        public Product UpdateProduct(Product product)
         {
             throw new System.NotImplementedException();
         }
