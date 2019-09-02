@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Models;
 using API.Services;
+using API.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -42,20 +43,60 @@ namespace API.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<string> Post([FromBody] Product product)
         {
+            try
+            {
+                return Ok(ProductService.CreateProduct(product));
+            }
+            catch(ProductAlreadyExistsException e)
+            {
+                return StatusCode(400, e.Message);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{referenceCode}")]
+        public ActionResult<string> Put(string referenceCode, [FromBody] Product product)
         {
+            try
+            {
+                return Ok(ProductService.UpdateProduct(referenceCode, product));
+            }
+            catch(ProductInconsistencyException e)
+            {
+                return StatusCode(400, e.Message);
+            }
+            catch(ProductAlreadyExistsException e)
+            {
+                return StatusCode(400, e.Message);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{referenceCode}")]
+        public ActionResult<string> Delete(string referenceCode)
         {
+            try
+            {
+                return Ok(ProductService.DeleteProduct(referenceCode));
+            }
+            catch(ProductNotFoundException e)
+            {
+                return StatusCode(404, e.Message);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }
