@@ -18,28 +18,38 @@ namespace API.Services
         {
             Product reference = Database.GetProduct(product.ReferenceCode);
             if(reference != null)
-                throw new CreateProductException("Já existe um produto com esse reference code");
+                throw new ProductAlreadyExistsException("Já existe um produto com esse reference code");
             return Database.UpsertProduct(product);
         }
 
         public string DeleteProduct(string referenceCode)
         {
-            throw new System.NotImplementedException();
+            Product reference = Database.GetProduct(referenceCode);
+            if(reference == null)
+                throw new ProductNotFoundException("Produto não existe");
+            return Database.DeleteProduct(referenceCode);
         }
 
         public Product GetProduct(string referenceCode)
         {
-            throw new System.NotImplementedException();
+            Product reference = Database.GetProduct(referenceCode);
+            if(reference == null)
+                throw new ProductNotFoundException("Produto não existe");
+            return reference;
         }
 
         public IEnumerable<Product> GetProducts()
         {
             return Database.GetProducts();
         }
-
-        public Product UpdateProduct(Product product)
+        public Product UpdateProduct(string referenceCode, Product product)
         {
-            throw new System.NotImplementedException();
+            if(referenceCode != product.ReferenceCode)
+                throw new ProductInconsistencyException("Reference Code é diferente do Produto");
+            Product reference = Database.GetProduct(referenceCode);
+            if(reference == null)
+                throw new ProductNotFoundException("Produto não existe");
+            return Database.UpsertProduct(product);
         }
     }
 }
