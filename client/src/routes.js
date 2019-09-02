@@ -6,17 +6,16 @@ export default [
   {
     path: '/',
     component: Index,
+    name: 'Página inicial',
   },
   {
     path: '/orders',
     component: OrderIndex,
+    name: 'Comandas',
   },
   {
     path: '/clients',
     component: ClientIndex,
-  },
-  {
-    path: '/exemplo',
-    component: OrderIndex,
+    name: 'Clientes',
   },
 ]
