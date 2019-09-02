@@ -12,7 +12,7 @@ namespace API.Services
 
         Product CreateProduct(Product product);   
 
-        Product UpdateProduct(Product product);   
+        Product UpdateProduct(string referenceCode,Product product);   
 
         string DeleteProduct(string referenceCode);
     }
