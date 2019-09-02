@@ -1,0 +1,7 @@
+.ant-table-wrapper {
+  margin: 0 -24px;
+}
+
+.ant-pagination.ant-table-pagination {
+  padding: 0 24px;
+}
