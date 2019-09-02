@@ -2,19 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Models;
+using API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class ProductController : ControllerBase
     {
+        public ProductController(IProductService ProductService)
+        {
+            this.ProductService = ProductService;
+        }
+
+        IProductService ProductService { get; set; }
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<Product>> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                return Ok(ProductService.GetProducts());
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         // GET api/values/5
