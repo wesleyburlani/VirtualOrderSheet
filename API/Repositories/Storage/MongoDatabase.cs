@@ -34,10 +34,9 @@ namespace API.Repositories.Storage
 
         public Product UpsertProduct(Product product)
         {
-            var options = new FindOneAndReplaceOptions<Product>();
+            var filter = Builders<Product>.Filter.Eq(p => p.ReferenceCode, product.ReferenceCode);
             return GetProductsCollection().FindOneAndReplace<Product>(
-                p => p.ReferenceCode == product.ReferenceCode, 
-                product, options);
+                filter, product, new FindOneAndReplaceOptions<Product, Product>(){ IsUpsert = true} );
         }
 
         private IMongoCollection<Product> GetProductsCollection()
