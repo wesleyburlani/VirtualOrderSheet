@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace API
 {
@@ -28,9 +29,10 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddScoped<IDatabase, MockDatabase>();
+            services.AddScoped<IDatabase, MongoDatabase>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IMongoClient>(r => new MongoClient("mongodb://localhost:27017"));
+            services.AddScoped<ICustomerService, CustomerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
