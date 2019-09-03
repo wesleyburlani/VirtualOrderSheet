@@ -42,7 +42,7 @@ namespace API.Controllers
             {
                 return Ok(ProductService.GetProduct(referenceCode));
             }
-            catch(ProductAlreadyExistsException e)
+            catch(ProductNotFoundException e)
             {
                 return StatusCode(400, e.Message);
             }
@@ -82,9 +82,9 @@ namespace API.Controllers
             {
                 return StatusCode(400, e.Message);
             }
-            catch(ProductAlreadyExistsException e)
+            catch(ProductNotFoundException e)
             {
-                return StatusCode(400, e.Message);
+                return StatusCode(404, e.Message);
             }
             catch(Exception e)
             {
