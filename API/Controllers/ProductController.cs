@@ -35,10 +35,21 @@ namespace API.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet("{referenceCode}")]
+        public ActionResult<string> Get(string referenceCode)
         {
-            return "value";
+            try
+            {
+                return Ok(ProductService.GetProduct(referenceCode));
+            }
+            catch(ProductAlreadyExistsException e)
+            {
+                return StatusCode(400, e.Message);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         // POST api/values
