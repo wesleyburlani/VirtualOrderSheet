@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom'
+import { ConfigProvider } from 'antd'
 import App from './App';
+import ptBR from 'antd/es/locale/pt_BR'
 import 'antd/dist/antd.css';
 import './styles.css'
 
 const RoutedApp = (
   <Router>
-    <App />
+    <ConfigProvider locale={ptBR}>
+      <App />
+    </ConfigProvider>
   </Router>
 )
 
