@@ -12,7 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace API
 {
@@ -29,6 +31,12 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Virtual Order Sheet API", Version = "v1" });
+            });
+
             services.AddScoped<IDatabase, MongoDatabase>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IMongoClient>(r => new MongoClient("mongodb://localhost:27017"));
@@ -48,6 +56,11 @@ namespace API
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
         }
