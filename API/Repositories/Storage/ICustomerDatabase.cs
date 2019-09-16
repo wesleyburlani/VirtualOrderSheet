@@ -7,7 +7,7 @@ namespace API.Repositories.Storage
 {
     public interface ICustomerDatabase
     {
-         IEnumerable<Customer> GetCustomers();
+         IEnumerable<Customer> GetCustomers(Expression<Func<Customer, bool>> filter);
 
          Customer GetCustomer(Expression<Func<Customer, bool>> filter);
 

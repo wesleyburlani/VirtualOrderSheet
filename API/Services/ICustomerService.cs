@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using API.Models;
 
 namespace API.Services
 {
     public interface ICustomerService
     {
-        IEnumerable<Customer> GetCustomers(Customer customer);
+        IEnumerable<Customer> GetCustomers(Expression<Func<Customer, bool>> filter);
 
         Customer GetCustomer(string cpf);
 
