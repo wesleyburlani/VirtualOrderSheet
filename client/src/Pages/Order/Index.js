@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Table, PageHeader, Button, Icon, Divider } from 'antd'
+import { Table, PageHeader, Button, Icon, Divider, Tooltip } from 'antd'
 import useReactRouter from 'use-react-router'
 import OrderModal from './OrderModal'
 
 export default () => {
   const { history } = useReactRouter()
-  const [order_modal, setOrderModal] = useState({ visible: true })
+  const [order_modal, setOrderModal] = useState({})
 
   const dataSource = [
     {
@@ -66,13 +66,17 @@ export default () => {
       width: 100,
       render: (_, order) => (
         <div>
-          <a onClick={() => setOrderModal({ visible: true, order_id: order.id })}>
-            <Icon type="edit" />
-          </a>
+          <Tooltip title="Editar">
+            <a onClick={() => setOrderModal({ visible: true, order_id: order.id })}>
+              <Icon type="edit" />
+            </a>
+          </Tooltip>
           <Divider type="vertical" />
-          <a style={{ color: 'red' }}>
-            <Icon type="delete" />
-          </a>
+          <Tooltip title="Excluir">
+            <a style={{ color: 'red' }}>
+              <Icon type="delete" />
+            </a>
+          </Tooltip>
         </div>
       ),
     }
@@ -102,7 +106,9 @@ export default () => {
       />
 
       <OrderModal
-        {...order_modal}
+        // {...order_modal}
+        visible={order_modal.visible}
+        order_id={order_modal.order_id}
         close={() => setOrderModal({})}
       />
     </div>

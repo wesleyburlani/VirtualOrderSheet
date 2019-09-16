@@ -1,6 +1,5 @@
 import React from 'react'
-
-import { Table, PageHeader, Icon , Divider, Button } from 'antd'
+import { Table, PageHeader, Icon , Divider, Button, Tooltip } from 'antd'
 
 export default () => {
 
@@ -45,21 +44,21 @@ export default () => {
       width: 100,
       render: () => (
         <div>
-          <a>
-            <Icon type="edit" />
-          </a>
-          <Divider type="vertical"/>
-          <a style={{ color: 'red' }}>
-            <Icon type="delete" />
-          </a>
+          <Tooltip title="Editar">
+            <a>
+              <Icon type="edit" />
+            </a>
+          </Tooltip>
+          <Divider type="vertical" />
+          <Tooltip title="Excluir">
+            <a style={{ color: 'red' }}>
+              <Icon type="delete" />
+            </a>
+          </Tooltip>
         </div>
       )
     },
   ]
-
-
-  
-  
 
   return (
     <div>
