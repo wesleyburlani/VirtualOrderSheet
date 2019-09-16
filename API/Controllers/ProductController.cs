@@ -42,7 +42,7 @@ namespace API.Controllers
             }
             catch(ProductNotFoundException e)
             {
-                return StatusCode(400, e.Message);
+                return StatusCode(400, new ErrorResult(e.Message));
             }
             catch(Exception e)
             {
