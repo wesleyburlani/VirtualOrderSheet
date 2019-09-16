@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table, PageHeader, Icon , Divider, Button } from 'antd'
 import useReactRouter from 'use-react-router'
+import ClientModal from './ClientModal'
 
 export default () => {
   const { history } = useReactRouter()
@@ -77,6 +78,7 @@ export default () => {
         dataSource={dataSource}
         columns={columns}
       />
+      <ClientModal visible="true"/>
     </div>
   )
 } 
