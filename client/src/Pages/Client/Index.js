@@ -1,8 +1,9 @@
 import React from 'react'
-
 import { Table, PageHeader, Icon , Divider, Button } from 'antd'
+import useReactRouter from 'use-react-router'
 
 export default () => {
+  const { history } = useReactRouter()
 
   const dataSource = [
     {
@@ -64,7 +65,7 @@ export default () => {
   return (
     <div>
       <PageHeader
-        onBack={() => null}
+        onBack={() => history.push('/')}
         title="Lista de Clientes"
         extra={[
           <Button type="primary" icon="plus" key="new">

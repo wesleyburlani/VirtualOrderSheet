@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table, PageHeader, Button, Icon, Divider } from 'antd'
 import useReactRouter from 'use-react-router'
+import OrderModal from './OrderModal'
 
 export default () => {
   const { history } = useReactRouter()
@@ -93,6 +94,8 @@ export default () => {
         dataSource={dataSource}
         rowKey={obj => obj.id}
       />
+
+      <OrderModal visible={true} />
     </div>
   )
 }
