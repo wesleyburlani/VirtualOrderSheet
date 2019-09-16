@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, PageHeader, Button } from 'antd'
+import { Table, PageHeader, Button, Icon, Divider } from 'antd'
 import useReactRouter from 'use-react-router'
 
 export default () => {
@@ -57,6 +57,22 @@ export default () => {
     }, {
       title: 'Status',
       dataIndex: 'status',
+    }, {
+      title: 'Ações',
+      key: 'actions',
+      fixed: 'right',
+      width: 100,
+      render: () => (
+        <div>
+          <a>
+            <Icon type="edit" />
+          </a>
+          <Divider type="vertical" />
+          <a style={{ color: 'red' }}>
+            <Icon type="delete" />
+          </a>
+        </div>
+      ),
     }
   ]
 
