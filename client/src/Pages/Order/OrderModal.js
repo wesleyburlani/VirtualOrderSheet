@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal, Button, Form, InputNumber, Row, Col, DatePicker, Select } from 'antd'
 
 const { Option } = Select
 
-export default Form.create()(({ visible, order_id, form }) => {
+export default Form.create()(({ visible, order_id, form, close }) => {
   const { getFieldDecorator } = form
+
+  useEffect(() => {
+    if (visible && order_id)
+      console.log('Aqui sera feito request')
+  }, [visible, order_id])
 
   const clients = [
     {
@@ -22,9 +27,10 @@ export default Form.create()(({ visible, order_id, form }) => {
       title={`${order_id ? 'Editando' : 'Criando'} comanda`}
       visible={visible}
       width={600}
+      onCancel={close}
       footer={
         <>
-          <Button>
+          <Button onClick={close}>
             Cancelar
           </Button>
           <Button type="primary">
@@ -38,7 +44,9 @@ export default Form.create()(({ visible, order_id, form }) => {
 
           <Col span={12}>
             <Form.Item label="Data de entrada">
-              {getFieldDecorator('enter_date')(
+              {getFieldDecorator('enter_date', {
+                rules: [{ required: true, message: 'Informe a data de entrada' }]
+              })(
                 <DatePicker
                   showTime
                   format="DD/MM/YYYY [às] HH:mm"
@@ -72,7 +80,10 @@ export default Form.create()(({ visible, order_id, form }) => {
           </Col>
           <Col span={6}>
             <Form.Item label="Status">
-              {getFieldDecorator('status')(
+              {getFieldDecorator('status', {
+                rules: [{ required: true, message: 'Informe um status' }],
+                initialValue: 'open'
+              })(
                 <Select placeholder="Status">
                   <Option value="open">Em aberto</Option>
                   <Option value="paid">Pago</Option>
@@ -82,7 +93,9 @@ export default Form.create()(({ visible, order_id, form }) => {
           </Col>
           <Col span={12}>
             <Form.Item label="Cliente">
-              {getFieldDecorator('client')(
+              {getFieldDecorator('client', {
+                rules: [{ required: true, message: 'Informe um cliente' }]
+              })(
                 <Select placeholder="Cliente">
                   {clients.map(client => (
                     <Option key={client.id} value={client.id}>
