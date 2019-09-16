@@ -11,6 +11,10 @@ export default Form.create()(({ visible, order_id, form, close }) => {
       console.log('Aqui sera feito request')
   }, [visible, order_id])
 
+  const submit = () => {
+    
+  }
+
   const clients = [
     {
       id: '1',
@@ -33,7 +37,7 @@ export default Form.create()(({ visible, order_id, form, close }) => {
           <Button onClick={close}>
             Cancelar
           </Button>
-          <Button type="primary">
+          <Button type="primary" onClick={submit}>
             {order_id ? 'Atualizar' : 'Salvar'}
           </Button>
         </>
