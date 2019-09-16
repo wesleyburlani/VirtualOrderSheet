@@ -64,9 +64,9 @@ export default () => {
       key: 'actions',
       fixed: 'right',
       width: 100,
-      render: () => (
+      render: (_, order) => (
         <div>
-          <a>
+          <a onClick={() => setOrderModal({ visible: true, order_id: order.id })}>
             <Icon type="edit" />
           </a>
           <Divider type="vertical" />

@@ -1,38 +1,59 @@
 using System.Collections.Generic;
 using API.Models;
+using API.Repositories.Storage;
+using API.Exceptions;
 
 namespace API.Services
 {
     public class CustomerService : ICustomerService
     {
-        public Customer CreateCustomer(Customer Customer)
-        {
-            Customer cpf = Database.GetCustomer()
-            throw new System.NotImplementedException();
 
+        public CustomerService(ICustomerDatabase Database)
+        {
+            this.Database = Database;
+        }
+
+        ICustomerDatabase Database { get; set; }
+
+        public Customer CreateCustomer(Customer customer)
+        {
+            Customer reference = Database.GetCustomer(c => c.Cpf == customer.Cpf);
             if(reference != null)
-                throw new ProductAlreadyExistsException("Já existe um produto com esse reference code");
-            return Database.UpsertProduct(product);
+                throw new CustomerAlreadyExistsException("Já existe um cliente com esse CPF");
+            return Database.UpsertCustomer(customer);
         }
 
-        public string DeleteCustomer(string referenceCode)
+        public string DeleteCustomer(string cpf)
         {
-            throw new System.NotImplementedException();
+            Customer reference = Database.GetCustomer(c => c.Cpf == cpf);
+            if(reference == null)                
+                throw new CustomerNotFoundException("Cliente não existe");
+            return Database.DeleteCustomer(cpf);
         }
 
-        public Customer GetCustomer(string referenceCode)
+        public Customer GetCustomer(string cpf)
         {
-            throw new System.NotImplementedException();
+            Customer reference = Database.GetCustomer(c => c.Cpf == cpf);
+            if(reference == null)
+                throw new CustomerNotFoundException("Cliente não existe");
+            return reference;
         }
 
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<Customer> GetCustomers(Customer customer)
         {
-            throw new System.NotImplementedException();
+            Customer reference = Database.GetCustomer(null);
+            return null;
+
         }
 
-        public Customer UpdateCustomer(Customer Customer)
+        public Customer UpdateCustomer(string cpf, Customer customer)
         {
-            throw new System.NotImplementedException();
+            if(cpf != customer.Cpf)
+                throw new CustomerInconsistencyException("Cpf é diferente do Cliente");
+            Customer reference = Database.GetCustomer(c => c.Cpf == cpf);;
+            if(reference == null)
+                throw new CustomerNotFoundException("Cliente não existe");
+            return Database.UpsertCustomer(customer);
         }
     }
 }

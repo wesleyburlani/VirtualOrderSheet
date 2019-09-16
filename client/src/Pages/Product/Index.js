@@ -1,44 +1,42 @@
 import React from 'react'
+
 import { Table, PageHeader, Icon , Divider, Button } from 'antd'
-import useReactRouter from 'use-react-router'
-import ClientModal from './ClientModal'
 
 export default () => {
-  const { history } = useReactRouter()
 
   const dataSource = [
     {
-      id: '1',
-      name: 'Mike Hong',
-      cpf: '212345678-89',
-      phone: '(49) 8934-2356',
-      email: 'mikeh@email.com',
+        referenceCode: '1',
+        name: 'Bebida A',
+        price: 8.00,
+        description: 'SsS',
+        stock: 10,
     },
     {
-      id: '2',
-      name: 'John XXX',
-      cpf: '342334567-89',
-      phone: '(49) 8834-2245',
-      email: 'johnx@email.com',
-    },
+        referenceCode: '2',
+        name: 'Bebida B',
+        price: 10.00,
+        description: 'ACF',
+        stock: 15,
+      },
   ]
   
   const columns = [
     {
-      title: 'Nome Completo',
+      title: 'Bebida',
       dataIndex: 'name',
     },
     {
-      title: 'Cpf',
-      dataIndex: 'cpf',
+      title: 'Preço',
+      dataIndex: 'price',
     },
     {
-      title: 'Telefone',
-      dataIndex: 'phone',
+      title: 'Descrição',
+      dataIndex: 'description',
     },
     {
-      title: 'Email',
-      dataIndex: 'email',  
+      title: 'Estoque',
+      dataIndex: 'stock',  
     },
     {
       title: 'Ações',
@@ -66,11 +64,11 @@ export default () => {
   return (
     <div>
       <PageHeader
-        onBack={() => history.push('/')}
-        title="Lista de Clientes"
+        onBack={() => null}
+        title="Lista de Produtos"
         extra={[
           <Button type="primary" icon="plus" key="new">
-            Criar cliente
+            Novo Produto
           </Button>
         ]}
       />
@@ -78,7 +76,6 @@ export default () => {
         dataSource={dataSource}
         columns={columns}
       />
-      <ClientModal visible="true"/>
     </div>
   )
 } 
