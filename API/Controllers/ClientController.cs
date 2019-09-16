@@ -4,6 +4,7 @@ using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
 using API.Exceptions;
+using System.Linq.Expressions;
 
 namespace API.Controllers
 {
@@ -19,17 +20,13 @@ namespace API.Controllers
         ICustomerService CustomerService { get; set; }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Customer>> Get([FromRoute]string name, [FromRoute]string email)
+        public ActionResult<IEnumerable<Customer>> Get([FromQuery]string name = null, [FromQuery]string email = null)
         {
             try
-            {
-                Customer customer = new Customer();
-                if(string.IsNullOrEmpty(name) == false)
-                    customer.Name = name;
-                if(string.IsNullOrEmpty(email) == false)
-                    customer.Email = email;
-
-                return Ok(CustomerService.GetCustomers(customer));
+            {   
+                return Ok(CustomerService.GetCustomers(filter: 
+                    c => (c.Name == name || string.IsNullOrEmpty(name)) 
+                    && (c.Email == email || string.IsNullOrEmpty(email))));
             }
             catch(Exception e)
             {

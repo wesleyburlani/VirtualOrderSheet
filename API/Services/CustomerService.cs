@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using API.Models;
 using API.Repositories.Storage;
 using API.Exceptions;
+using System.Linq.Expressions;
+using System;
 
 namespace API.Services
 {
@@ -39,11 +41,10 @@ namespace API.Services
             return reference;
         }
 
-        public IEnumerable<Customer> GetCustomers(Customer customer)
+        public IEnumerable<Customer> GetCustomers(Expression<Func<Customer, bool>> filter)
         {
-            Customer reference = Database.GetCustomer(null);
-            return null;
-
+            IEnumerable<Customer> references = Database.GetCustomers(filter);
+            return references;
         }
 
         public Customer UpdateCustomer(string cpf, Customer customer)
