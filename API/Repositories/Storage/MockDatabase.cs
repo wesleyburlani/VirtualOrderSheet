@@ -3,7 +3,7 @@ using API.Models;
 
 namespace API.Repositories.Storage
 {
-    public class MockDatabase : IDatabase
+    public class MockDatabase : IProductDatabase
     {
         public string DeleteProduct(string referenceCode)
         {

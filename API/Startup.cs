@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using API.Repositories.Storage;
+﻿using API.Repositories.Storage;
 using API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -37,7 +29,7 @@ namespace API
                 c.SwaggerDoc("v1", new Info { Title = "Virtual Order Sheet API", Version = "v1" });
             });
 
-            services.AddScoped<IDatabase, MongoDatabase>();
+            services.AddScoped<IProductDatabase, MongoDatabase>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IMongoClient>(r => new MongoClient("mongodb://localhost:27017"));
             services.AddScoped<ICustomerService, CustomerService>();

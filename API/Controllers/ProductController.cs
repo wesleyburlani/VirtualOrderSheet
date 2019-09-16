@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Models;
 using API.Services;
 using API.Exceptions;
@@ -30,7 +28,7 @@ namespace API.Controllers
             }
             catch(Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new ErrorResult(e.Message));
             }
         }
 
@@ -44,11 +42,11 @@ namespace API.Controllers
             }
             catch(ProductNotFoundException e)
             {
-                return StatusCode(400, e.Message);
+                return StatusCode(400, new ErrorResult(e.Message));
             }
             catch(Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new ErrorResult(e.Message));
             }
         }
 
@@ -62,11 +60,11 @@ namespace API.Controllers
             }
             catch(ProductAlreadyExistsException e)
             {
-                return StatusCode(400, e.Message);
+                return StatusCode(400, new ErrorResult(e.Message));
             }
             catch(Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new ErrorResult(e.Message));
             }
         }
 
@@ -80,15 +78,15 @@ namespace API.Controllers
             }
             catch(ProductInconsistencyException e)
             {
-                return StatusCode(400, e.Message);
+                return StatusCode(400, new ErrorResult(e.Message));
             }
             catch(ProductNotFoundException e)
             {
-                return StatusCode(404, e.Message);
+                return StatusCode(404, new ErrorResult(e.Message));
             }
             catch(Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new ErrorResult(e.Message));
             }
         }
 
@@ -102,11 +100,11 @@ namespace API.Controllers
             }
             catch(ProductNotFoundException e)
             {
-                return StatusCode(404, e.Message);
+                return StatusCode(404, new ErrorResult(e.Message));
             }
             catch(Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new ErrorResult(e.Message));
             }
         }
     }
