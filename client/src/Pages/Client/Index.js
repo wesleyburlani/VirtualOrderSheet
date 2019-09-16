@@ -1,10 +1,11 @@
-import React from 'react'
-import { Table, PageHeader, Icon , Divider, Button } from 'antd'
+import React, { useState } from 'react'
+import { Table, PageHeader, Icon , Divider, Button , Tooltip } from 'antd'
 import useReactRouter from 'use-react-router'
 import ClientModal from './ClientModal'
 
 export default () => {
   const { history } = useReactRouter()
+  const [client_modal, setClientModal] = useState({})
 
   const dataSource = [
     {
@@ -45,15 +46,19 @@ export default () => {
       key: 'actions',
       fixed: 'right',
       width: 100,
-      render: () => (
+      render: (_,client) => (
         <div>
-          <a>
+          <Tooltip title="Editar">
+          <a onClick={() => setClientModal({ visible: true, client_id: client.id })}>
             <Icon type="edit" />
           </a>
+          </Tooltip>
           <Divider type="vertical"/>
+          <Tooltip title="Excluir">
           <a style={{ color: 'red' }}>
             <Icon type="delete" />
           </a>
+          </Tooltip>
         </div>
       )
     },
@@ -65,7 +70,12 @@ export default () => {
         onBack={() => history.push('/')}
         title="Lista de Clientes"
         extra={[
-          <Button type="primary" icon="plus" key="new">
+          <Button 
+          type="primary" 
+          icon="plus" 
+          key="new"
+          onClick={() => setClientModal({ visible: true })}
+          >
             Criar cliente
           </Button>
         ]}
@@ -74,7 +84,10 @@ export default () => {
         dataSource={dataSource}
         columns={columns}
       />
-      <ClientModal visible="true"/>
+      <ClientModal 
+       {...client_modal}
+        closeModal={() => setClientModal({})}
+      />
     </div>
   )
 } 

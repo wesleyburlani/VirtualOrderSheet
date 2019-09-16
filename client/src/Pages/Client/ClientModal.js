@@ -1,11 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal, Button, Form, InputNumber, Row, Col, DatePicker, Select, Input } from 'antd'
 
 const { Option } = Select
 
-export default Form.create()(({ visible, client_id, form }) => {
+export default Form.create()(({ visible, client_id, form, closeModal }) => {
   const { getFieldDecorator } = form
 
+  useEffect(() => {
+    if (visible && client_id)
+      console.log('Aqui sera feito request')
+  }, [visible, client_id])
+
+  const close = () => {
+    form.resetFields()
+    closeModal()
+  }
+
+  const submit = () => {
+    
+  }
   const clients = [
     {
       id: '1',
@@ -22,12 +35,13 @@ export default Form.create()(({ visible, client_id, form }) => {
       title={`${client_id ? 'Editando' : 'Criando'} cliente`}
       visible={visible}
       width={600}
+      onCancel={close}
       footer={
         <>
-          <Button>
+          <Button onClick={close}>
             Cancelar
           </Button>
-          <Button type="primary">
+          <Button type="primary" onClick={submit}>
             {client_id ? 'Atualizar' : 'Salvar'}
           </Button>
         </>
