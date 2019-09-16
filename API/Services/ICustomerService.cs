@@ -5,14 +5,14 @@ namespace API.Services
 {
     public interface ICustomerService
     {
-        IEnumerable<Customer> GetCustomers();
+        IEnumerable<Customer> GetCustomers(Customer customer);
 
-        Customer GetCustomer(string referenceCode);
+        Customer GetCustomer(string cpf);
 
-        Customer CreateCustomer(Customer Customer);   
+        Customer CreateCustomer(Customer customer);
 
-        Customer UpdateCustomer(Customer Customer);   
+        Customer UpdateCustomer(string cpf, Customer customer);   
 
-        string DeleteCustomer(string referenceCode);
+        string DeleteCustomer(string cpf);
     }
 }
