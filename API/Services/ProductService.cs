@@ -7,12 +7,12 @@ namespace API.Services
 {
     public class ProductService : IProductService
     {
-        public ProductService(IDatabase Database)
+        public ProductService(IProductDatabase Database)
         {
             this.Database = Database;
         }
 
-        IDatabase Database { get; set; }
+        IProductDatabase Database { get; set; }
 
         public Product CreateProduct(Product product)
         {

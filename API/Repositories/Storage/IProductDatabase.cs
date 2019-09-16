@@ -3,7 +3,7 @@ using API.Models;
 
 namespace API.Repositories.Storage
 {
-    public interface IDatabase
+    public interface IProductDatabase
     {
         IEnumerable<Product> GetProducts();
 
