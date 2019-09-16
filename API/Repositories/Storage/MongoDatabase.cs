@@ -18,7 +18,8 @@ namespace API.Repositories.Storage
 
         public string DeleteCustomer(string cpf)
         {
-            throw new NotImplementedException();
+            GetCustomersCollection().DeleteOne<Customer>(c => c.Cpf == cpf);
+            return cpf;
         }
 
         public string DeleteProduct(string referenceCode)
@@ -29,12 +30,14 @@ namespace API.Repositories.Storage
 
         public Customer GetCustomer(Expression<Func<Customer, bool>> filter)
         {
-            throw new NotImplementedException();
+            return GetCustomersCollection().Find<Customer>(
+                filter
+            ).Limit(1).ToList().FirstOrDefault();
         }
 
         public IEnumerable<Customer> GetCustomers()
         {
-            throw new NotImplementedException();
+            return GetCustomersCollection().Find<Customer>(_ => true).ToList();
         }
 
         public Product GetProduct(string referenceCode)
@@ -51,7 +54,9 @@ namespace API.Repositories.Storage
 
         public Customer UpsertCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Customer>.Filter.Eq(c => c.Cpf, customer.Cpf);
+            return GetCustomersCollection().FindOneAndReplace<Customer>(filter, customer,
+                new FindOneAndReplaceOptions<Customer, Customer>(){ IsUpsert = true });
         }
 
         public Product UpsertProduct(Product product)
