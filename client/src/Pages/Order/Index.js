@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Table, PageHeader, Button, Icon, Divider } from 'antd'
 import useReactRouter from 'use-react-router'
 import OrderModal from './OrderModal'
 
 export default () => {
   const { history } = useReactRouter()
+  const [order_modal, setOrderModal] = useState({ visible: true })
 
   const dataSource = [
     {
@@ -63,9 +64,9 @@ export default () => {
       key: 'actions',
       fixed: 'right',
       width: 100,
-      render: () => (
+      render: (_, order) => (
         <div>
-          <a>
+          <a onClick={() => setOrderModal({ visible: true, order_id: order.id })}>
             <Icon type="edit" />
           </a>
           <Divider type="vertical" />
@@ -83,7 +84,12 @@ export default () => {
         onBack={() => history.push('/')}
         title="Lista de Comandas"
         extra={[
-          <Button key="new" type="primary" icon="plus">
+          <Button
+            key="new"
+            type="primary"
+            icon="plus"
+            onClick={() => setOrderModal({ visible: true })}
+          >
             Criar comanda
           </Button>
         ]}
@@ -95,7 +101,10 @@ export default () => {
         rowKey={obj => obj.id}
       />
 
-      <OrderModal visible={true} />
+      <OrderModal
+        {...order_modal}
+        close={() => setOrderModal({})}
+      />
     </div>
   )
 }

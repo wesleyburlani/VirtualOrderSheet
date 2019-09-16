@@ -34,7 +34,7 @@ namespace API.Controllers
 
         // GET api/values/5
         [HttpGet("{referenceCode}")]
-        public ActionResult<string> Get(string referenceCode)
+        public ActionResult<Product> Get(string referenceCode)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace API.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult<string> Post([FromBody] Product product)
+        public ActionResult<Product> Post([FromBody] Product product)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace API.Controllers
 
         // PUT api/values/5
         [HttpPut("{referenceCode}")]
-        public ActionResult<string> Put(string referenceCode, [FromBody] Product product)
+        public ActionResult<Product> Put(string referenceCode, [FromBody] Product product)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace API.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{referenceCode}")]
-        public ActionResult<string> Delete(string referenceCode)
+        public ActionResult<Product> Delete(string referenceCode)
         {
             try
             {
