@@ -7,7 +7,12 @@ namespace API.Services
     {
         public Customer CreateCustomer(Customer Customer)
         {
+            Customer cpf = Database.GetCustomer()
             throw new System.NotImplementedException();
+
+            if(reference != null)
+                throw new ProductAlreadyExistsException("Já existe um produto com esse reference code");
+            return Database.UpsertProduct(product);
         }
 
         public string DeleteCustomer(string referenceCode)
