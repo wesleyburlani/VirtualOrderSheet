@@ -35,9 +35,9 @@ namespace API.Repositories.Storage
             ).Limit(1).ToList().FirstOrDefault();
         }
 
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<Customer> GetCustomers(Expression<Func<Customer, bool>> filter)
         {
-            return GetCustomersCollection().Find<Customer>(_ => true).ToList();
+            return GetCustomersCollection().Find<Customer>(filter).ToList();
         }
 
         public Product GetProduct(string referenceCode)
