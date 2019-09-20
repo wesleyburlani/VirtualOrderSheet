@@ -1,11 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Modal, Button, Form, InputNumber, Row, Col, DatePicker, Select, Input } from 'antd'
 
 const { Option } = Select
 
-export default Form.create()(({ visible, product_id, form }) => {
+export default Form.create()(({ visible, product_id, form, closeModal }) => {
   const { getFieldDecorator } = form
 
+  useEffect(() => {
+    if (visible && product_id)
+      console.log('Aqui sera feito request')
+  }, [visible, product_id])
+
+  const close = () => {
+    form.resetFields()
+    closeModal()
+  }
+
+  const submit = () => {
+    
+  }
   const products = [
     {
       id: '1',
@@ -19,15 +32,16 @@ export default Form.create()(({ visible, product_id, form }) => {
 
   return (
     <Modal
-      title={`${product_id ? 'Editando' : 'Criando'} produto`}
+      title={`${product_id ? 'Editando' : 'Criando'} cliente`}
       visible={visible}
       width={600}
+      onCancel={close}
       footer={
         <>
-          <Button>
+          <Button onClick={close}>
             Cancelar
           </Button>
-          <Button type="primary">
+          <Button type="primary" onClick={submit}>
             {product_id ? 'Atualizar' : 'Salvar'}
           </Button>
         </>
@@ -39,27 +53,27 @@ export default Form.create()(({ visible, product_id, form }) => {
           <Col span={12}>
             <Form.Item label="Nome da Bebida">
               {getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'Informe o nome da bebida' }]
+                  rules: [{ required: true, message: 'Informe o nome da Bebida' }]
                 })(
                 <Input placeholder="Nome da Bebida"/>
               )}
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="Preço">
+            <Form.Item label="Price">
               {getFieldDecorator('price', {
                 rules: [{ required: true, message: 'Informe o preço'}]
               })(
-                <Input placeholder="00.00"/>
+                <Input placeholder="0.00"/>
               )}
             </Form.Item>
           </Col>
           <Col span={8}>
             <Form.Item label="Descrição">
-              {getFieldDecorator('descripton', {
+              {getFieldDecorator('description', {
                 
               })(
-              <Input placeholder="Informações sobre a bebida"/>
+              <Input placeholder=""/>
               )}
             </Form.Item>
           </Col>
