@@ -80,7 +80,7 @@ export default () => {
       />
        <ProductModal 
        {...product_modal}
-        closeModal={() => setProducttModal({})}
+        closeModal={() => setProductModal({})}
       />
     </div>
   )
