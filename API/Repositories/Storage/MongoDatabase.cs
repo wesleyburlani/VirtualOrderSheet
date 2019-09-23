@@ -7,7 +7,7 @@ using MongoDB.Driver;
 
 namespace API.Repositories.Storage
 {
-    public class MongoDatabase : IProductDatabase, ICustomerDatabase
+    public class MongoDatabase : IProductDatabase, ICustomerDatabase, IOrderSheetDatabase
     {
         IMongoClient MongoClient;
 
@@ -66,6 +66,25 @@ namespace API.Repositories.Storage
                 new FindOneAndReplaceOptions<Product, Product>() { IsUpsert = true });
         }
 
+        public IEnumerable<OrderSheet> GetOrderSheets(Expression<Func<OrderSheet, bool>> filter)
+        {
+            return GetOrderSheetsCollection().Find<OrderSheet>(filter).ToList();
+        }
+
+        public OrderSheet GetOrderSheet(Expression<Func<OrderSheet, bool>> filter)
+        {
+            return GetOrderSheetsCollection().Find<OrderSheet>(
+                filter
+            ).Limit(1).ToList().FirstOrDefault();
+        }
+
+        public OrderSheet UpsertOrderSheet(OrderSheet orderSheet)
+        {
+            var filter = Builders<OrderSheet>.Filter.Eq(p => p.ReferenceCode, orderSheet.ReferenceCode);
+            return GetOrderSheetsCollection().FindOneAndReplace<OrderSheet>(filter, orderSheet,
+                new FindOneAndReplaceOptions<OrderSheet, OrderSheet>() { IsUpsert = true });
+        }
+
         private IMongoCollection<Product> GetProductsCollection()
         {
             return MongoClient.GetDatabase("virtualOrderSheet")
@@ -76,6 +95,12 @@ namespace API.Repositories.Storage
         {
             return MongoClient.GetDatabase("virtualOrderSheet")
                 .GetCollection<Customer>("cutomers");
+        }
+
+        private IMongoCollection<OrderSheet> GetOrderSheetsCollection()
+        {
+            return MongoClient.GetDatabase("virtualOrderSheet")
+                .GetCollection<OrderSheet>("orderSheets");
         }
     }
 }
