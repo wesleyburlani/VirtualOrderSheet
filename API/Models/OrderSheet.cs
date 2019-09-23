@@ -29,7 +29,8 @@ namespace API.Models
         public string FinishedDate { get; set; }
 
         [JsonProperty("status")]
-        public string Status { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public OrderSheetStatus Status { get; set; }
 
         [JsonProperty("products")]
         public List<OrderProduct> Products { get; set; }
