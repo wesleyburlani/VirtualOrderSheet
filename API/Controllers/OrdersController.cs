@@ -22,13 +22,13 @@ namespace API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<OrderSheet>> Get(
             [FromQuery]string clientCpf = null, 
-            [FromQuery]string status = null)
+            [FromQuery]OrderSheetStatus? status = null)
         {
             try
             {
                 return Ok(OrderSheetService.GetOrdersSheet(filter: 
                     c => (c.ClientCpf == clientCpf || string.IsNullOrEmpty(clientCpf)) 
-                    && (c.Status == status || string.IsNullOrEmpty(status))));
+                    && (c.Status == status || status == null)));
             }
             catch(Exception e)
             {
@@ -44,7 +44,7 @@ namespace API.Controllers
             {
                 return Ok(OrderSheetService.GetOrderSheet(referenceCode));
             }
-            catch(ProductNotFoundException e)
+            catch(OrderSheetNotFoundException e)
             {
                 return StatusCode(400, new ErrorResult(e.Message));
             }
@@ -55,14 +55,15 @@ namespace API.Controllers
         }
 
         // POST api/values
-        [HttpPost]
-        public ActionResult<OrderSheet> Post([FromBody] OrderSheet OrderSheet)
+        [HttpPost("/open")]
+        public ActionResult<OrderSheet> Post([FromBody] OrderSheetCreate orderSheetCpf)
         {
             try
             {
-                return Ok(OrderSheetService.CreateOrderSheet(OrderSheet));
+                var orderSheet = new OrderSheet{ ClientCpf = orderSheetCpf.ClientCpf };
+                return Ok(OrderSheetService.OpenOrderSheet(orderSheet));
             }
-            catch(ProductAlreadyExistsException e)
+            catch(OrderSheetAlreadyExistsException e)
             {
                 return StatusCode(400, new ErrorResult(e.Message));
             }
@@ -73,18 +74,40 @@ namespace API.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{referenceCode}")]
-        public ActionResult<OrderSheet> Put(string referenceCode, [FromBody] OrderSheet OrderSheet)
+        [HttpPut("{referenceCode}/addproduct")]
+        public ActionResult<OrderSheet> Put(string referenceCode, [FromBody] IEnumerable<OrderProduct> orderProducts)
         {
             try
             {
-                return Ok(OrderSheetService.UpdateOrderSheet(referenceCode, OrderSheet));
+
+                return Ok(OrderSheetService.AddProducts(referenceCode, orderProducts));
             }
-            catch(ProductInconsistencyException e)
+            catch(OrderSheetInconsistencyException e)
             {
                 return StatusCode(400, new ErrorResult(e.Message));
             }
-            catch(ProductNotFoundException e)
+            catch(OrderSheetNotFoundException e)
+            {
+                return StatusCode(404, new ErrorResult(e.Message));
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, new ErrorResult(e.Message));
+            }
+        }
+
+        [HttpPut("{referenceCode}/close")]
+        public ActionResult<OrderSheet> CloseOrder(string referenceCode)
+        {
+            try
+            {
+                return Ok(OrderSheetService.CloseOrderSheet(referenceCode));
+            }
+            catch(OrderSheetInconsistencyException e)
+            {
+                return StatusCode(400, new ErrorResult(e.Message));
+            }
+            catch(OrderSheetNotFoundException e)
             {
                 return StatusCode(404, new ErrorResult(e.Message));
             }

@@ -9,10 +9,12 @@ namespace API.Services
     {
         IEnumerable<OrderSheet> GetOrdersSheet(Expression<Func<OrderSheet, bool>> filter);
 
-        OrderSheet CreateOrderSheet(OrderSheet orderSheet);
+        OrderSheet OpenOrderSheet(OrderSheet orderSheet);
 
         OrderSheet GetOrderSheet(string referenceCode);
 
-        OrderSheet UpdateOrderSheet(string referenceCode, OrderSheet orderSheet);
+        OrderSheet AddProducts(string referenceCode, IEnumerable<OrderProduct> products);
+
+        OrderSheet CloseOrderSheet(string referenceCode);
     }
 }

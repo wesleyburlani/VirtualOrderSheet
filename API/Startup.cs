@@ -34,6 +34,8 @@ namespace API
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IMongoClient>(r => new MongoClient("mongodb://localhost:27017"));
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IOrderSheetService, OrderSheetService>();
+            services.AddScoped<IOrderSheetDatabase, MongoDatabase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

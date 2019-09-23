@@ -23,10 +23,10 @@ namespace API.Models
         public string ClientCpf { get; set; }
 
         [JsonProperty("created_date")]
-        public string CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         [JsonProperty("finished_date")]
-        public string FinishedDate { get; set; }
+        public DateTime FinishedDate { get; set; }
 
         [JsonProperty("status")]
         [JsonConverter(typeof(StringEnumConverter))]

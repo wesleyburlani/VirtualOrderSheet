@@ -11,20 +11,31 @@ namespace API.Services
     {
         public OrderSheetService(IOrderSheetDatabase Database)
         {
-            
+            this.Database = Database; 
         }
         IOrderSheetDatabase Database { get; set; }
 
-        public OrderSheet CreateOrderSheet(OrderSheet orderSheet)
+        public OrderSheet OpenOrderSheet(OrderSheet orderSheet)
         {
             OrderSheet reference = Database.GetOrderSheet(o => o.Status == OrderSheetStatus.open 
             && o.ClientCpf == orderSheet.ClientCpf);
             if(reference != null)
                 throw new OrderSheetAlreadyExistsException("Esse cliente já possui uma comanda em aberto");
             orderSheet.ReferenceCode = Base64Encode(orderSheet.ClientCpf+DateTime.Now.ToString());
+            orderSheet.CreatedDate = DateTime.Now;
+            orderSheet.Status = OrderSheetStatus.open;
             return Database.UpsertOrderSheet(orderSheet);
         }
 
+        public OrderSheet CloseOrderSheet(string referenceCode)
+        {
+            OrderSheet reference = Database.GetOrderSheet(r => r.ReferenceCode == referenceCode);
+            if(reference == null)
+                throw new OrderSheetNotFoundException("Comanada não encontrada");
+            reference.FinishedDate = DateTime.Now;
+            reference.Status = OrderSheetStatus.closed;
+            return Database.UpsertOrderSheet(reference);
+        }
 
         public OrderSheet GetOrderSheet(string referenceCode)
         {
@@ -40,14 +51,13 @@ namespace API.Services
             return references;
         }
 
-        public OrderSheet UpdateOrderSheet(string referenceCode, OrderSheet orderSheet)
+        public OrderSheet AddProducts(string referenceCode, IEnumerable<OrderProduct> products)
         {
-            if(referenceCode != orderSheet.ReferenceCode)
-                throw new OrderSheetInconsistencyException("Código informado na rota é diferente do informado no corpo");
             OrderSheet reference = Database.GetOrderSheet(r => r.ReferenceCode == referenceCode);;
             if(reference == null)
                 throw new OrderSheetNotFoundException("Comanda não encontrada");
-            return Database.UpsertOrderSheet(orderSheet);
+            reference.Products.AddRange(products);
+            return Database.UpsertOrderSheet(reference);
         }
 
         public static string Base64Encode(string plainText) {
