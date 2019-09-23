@@ -1,14 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, PageHeader, Icon , Divider, Button , Tooltip } from 'antd'
 import useReactRouter from 'use-react-router'
+import axios from 'axios'
 import ClientModal from './ClientModal'
 import { api } from '../../endpoints'
 
 export default () => {
   const { history } = useReactRouter()
   const [client_modal, setClientModal] = useState({})
+  const [clients, setClients] = useState([])
 
-  console.log(api)
+  useEffect(() => {
+    axios.get('/api/Client')
+      .then(result => console.log(result))
+  }, [])
 
   const dataSource = [
     {
