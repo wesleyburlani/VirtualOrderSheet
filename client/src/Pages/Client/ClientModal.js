@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
-import { Modal, Button, Form, InputNumber, Row, Col, DatePicker, Select, Input } from 'antd'
+import { Modal, Button, Form, Row, Col, Input, message } from 'antd'
+import axios from 'axios'
 
-const { Option } = Select
-
-export default Form.create()(({ visible, client_id, form, closeModal }) => {
+export default Form.create()(({ visible, client_cpf, form, closeModal, onUpdate }) => {
   const { getFieldDecorator } = form
 
   useEffect(() => {
-    if (visible && client_id)
+    if (visible && client_cpf)
       console.log('Aqui sera feito request')
-  }, [visible, client_id])
+  }, [visible, client_cpf])
 
   const close = () => {
     form.resetFields()
@@ -17,22 +16,25 @@ export default Form.create()(({ visible, client_id, form, closeModal }) => {
   }
 
   const submit = () => {
-    
+    form.validateFields((errors, values) => {
+      if (errors) return
+
+      const request = client_cpf ? axios.put : axios.post
+
+      request(`/api/Client/${client_cpf || ''}`, values)
+        .then(() => {
+          onUpdate()
+          close()
+        })
+        .catch(err => {
+          message.error(err.response.data.message)
+        })
+    })
   }
-  const clients = [
-    {
-      id: '1',
-      name: 'Mike Hong',
-    },
-    {
-      id: '2',
-      name: 'John XXX',
-    },
-  ]
 
   return (
     <Modal
-      title={`${client_id ? 'Editando' : 'Criando'} cliente`}
+      title={`${client_cpf ? 'Editando' : 'Criando'} cliente`}
       visible={visible}
       width={600}
       onCancel={close}
@@ -42,7 +44,7 @@ export default Form.create()(({ visible, client_id, form, closeModal }) => {
             Cancelar
           </Button>
           <Button type="primary" onClick={submit}>
-            {client_id ? 'Atualizar' : 'Salvar'}
+            {client_cpf ? 'Atualizar' : 'Salvar'}
           </Button>
         </>
       }
@@ -64,13 +66,16 @@ export default Form.create()(({ visible, client_id, form, closeModal }) => {
               {getFieldDecorator('cpf', {
                 rules: [{ required: true, message: 'Informe o CPF'}]
               })(
-                <Input placeholder="XXXXXXXXX-XX"/>
+                <Input
+                  placeholder="XXXXXXXXX-XX"
+                  disabled={client_cpf}
+                />
               )}
             </Form.Item>
           </Col>
           <Col span={8}>
             <Form.Item label="Telefone">
-              {getFieldDecorator('fone', {
+              {getFieldDecorator('phone', {
                 
               })(
               <Input placeholder="(xx) xxxx-xxxx"/>

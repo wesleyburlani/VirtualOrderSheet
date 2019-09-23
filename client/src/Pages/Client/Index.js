@@ -9,13 +9,12 @@ export default () => {
   const [client_modal, setClientModal] = useState({})
   const [clients, setClients] = useState(null)
 
-  useEffect(() => {
+  const getClients = () => {
     axios.get('/api/Client')
-      .then(result => {
-        console.log(result.data)
-        setClients(result.data)
-      })
-  }, [])
+      .then(result => setClients(result.data))
+  }
+
+  useEffect(getClients, [])
   
   const columns = [
     {
@@ -39,10 +38,10 @@ export default () => {
       key: 'actions',
       fixed: 'right',
       width: 100,
-      render: (_,client) => (
+      render: (_, client) => (
         <div>
           <Tooltip title="Editar">
-          <a onClick={() => setClientModal({ visible: true, client_id: client.id })}>
+          <a onClick={() => setClientModal({ visible: true, client_cpf: client.cpf })}>
             <Icon type="edit" />
           </a>
           </Tooltip>
@@ -77,10 +76,12 @@ export default () => {
         loading={clients === null}
         dataSource={clients}
         columns={columns}
+        rowKey={item => item.cpf}
       />
       <ClientModal 
        {...client_modal}
         closeModal={() => setClientModal({})}
+        onUpdate={getClients}
       />
     </div>
   )
