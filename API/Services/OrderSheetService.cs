@@ -1,32 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using API.Models;
+using API.Repositories.Storage;
+
 namespace API.Services
 {
     public class OrderSheetService : IOrderSheetService
     {
         public OrderSheetService(IOrderSheetDatabase Database)
         {
-            this.Database = Database;
+            
         }
 
-        IOrderSheetDatabase Database { get; set; }
-
-        IEnumerable<OrderSheet> GetOrdersSheet(Expression<Func<OrderSheet, bool>> filter)
+        public OrderSheet CreateOrderSheet(OrderSheet orderSheet)
         {
-
+            throw new NotImplementedException();
         }
 
-        OrderSheet CreateOrderSheet(OrderSheet orderSheet)
+        public OrderSheet GetOrderSheet(string referenceCode)
         {
-
+            throw new NotImplementedException();
         }
 
-        OrderSheet GetOrderSheet(string referenceCode)
+        public IEnumerable<OrderSheet> GetOrdersSheet(Expression<Func<OrderSheet, bool>> filter)
         {
-
+            throw new NotImplementedException();
         }
 
-        OrderSheet UpdateOrderSheet(string referenceCode, OrderSheet orderSheet)
+        public OrderSheet UpdateOrderSheet(string referenceCode, OrderSheet orderSheet)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

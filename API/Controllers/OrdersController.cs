@@ -44,7 +44,7 @@ namespace API.Controllers
             {
                 return Ok(OrderSheetService.GetOrderSheet(referenceCode));
             }
-            catch(OrderSheetNotFoundException e)
+            catch(ProductNotFoundException e)
             {
                 return StatusCode(400, new ErrorResult(e.Message));
             }
@@ -62,7 +62,7 @@ namespace API.Controllers
             {
                 return Ok(OrderSheetService.CreateOrderSheet(OrderSheet));
             }
-            catch(OrderSheetAlreadyExistsException e)
+            catch(ProductAlreadyExistsException e)
             {
                 return StatusCode(400, new ErrorResult(e.Message));
             }
@@ -80,11 +80,11 @@ namespace API.Controllers
             {
                 return Ok(OrderSheetService.UpdateOrderSheet(referenceCode, OrderSheet));
             }
-            catch(OrderSheetInconsistencyException e)
+            catch(ProductInconsistencyException e)
             {
                 return StatusCode(400, new ErrorResult(e.Message));
             }
-            catch(OrderSheetNotFoundException e)
+            catch(ProductNotFoundException e)
             {
                 return StatusCode(404, new ErrorResult(e.Message));
             }
