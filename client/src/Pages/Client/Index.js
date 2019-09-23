@@ -41,7 +41,7 @@ export default () => {
       render: (_, client) => (
         <div>
           <Tooltip title="Editar">
-          <a onClick={() => setClientModal({ visible: true, client_cpf: client.cpf })}>
+          <a onClick={() => setClientModal({ visible: true, client })}>
             <Icon type="edit" />
           </a>
           </Tooltip>
