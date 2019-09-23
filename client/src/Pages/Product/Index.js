@@ -5,6 +5,7 @@ import ProductModal from './ProductModal'
 
 export default () => {
   const { history } = useReactRouter()
+  const [product_modal, setProductModal] = useState({})
 
   const dataSource = [
     {
@@ -45,10 +46,10 @@ export default () => {
       key: 'actions',
       fixed: 'right',
       width: 100,
-      render: () => (
+      render: (_, product) => (
         <div>
           <Tooltip title="Editar">
-            <a>
+            <a onClick={() => setProductModal({ visible: true, product_id: product.id })}>
               <Icon type="edit" />
             </a>
           </Tooltip>
@@ -69,7 +70,12 @@ export default () => {
         onBack={() => history.push('/')}
         title="Lista de Produtos"
         extra={[
-          <Button type="primary" icon="plus" key="new">
+          <Button 
+            onClick={() => setProductModal({ visible: true })}
+            type="primary" 
+            icon="plus" 
+            key="new"
+          >
             Novo Produto
           </Button>
         ]}

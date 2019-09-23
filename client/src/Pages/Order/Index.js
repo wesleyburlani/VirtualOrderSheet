@@ -106,10 +106,8 @@ export default () => {
       />
 
       <OrderModal
-        // {...order_modal}
-        visible={order_modal.visible}
-        order_id={order_modal.order_id}
-        close={() => setOrderModal({})}
+        {...order_modal}
+        closeModal={() => setOrderModal({})}
       />
     </div>
   )

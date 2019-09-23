@@ -1,28 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, PageHeader, Icon , Divider, Button , Tooltip } from 'antd'
 import useReactRouter from 'use-react-router'
+import axios from 'axios'
 import ClientModal from './ClientModal'
 
 export default () => {
   const { history } = useReactRouter()
   const [client_modal, setClientModal] = useState({})
+  const [clients, setClients] = useState(null)
 
-  const dataSource = [
-    {
-      id: '1',
-      name: 'Mike Hong',
-      cpf: '212345678-89',
-      phone: '(49) 8934-2356',
-      email: 'mikeh@email.com',
-    },
-    {
-      id: '2',
-      name: 'John XXX',
-      cpf: '342334567-89',
-      phone: '(49) 8834-2245',
-      email: 'johnx@email.com',
-    },
-  ]
+  useEffect(() => {
+    axios.get('/api/Client')
+      .then(result => {
+        console.log(result.data)
+        setClients(result.data)
+      })
+  }, [])
   
   const columns = [
     {
@@ -81,7 +74,8 @@ export default () => {
         ]}
       />
       <Table
-        dataSource={dataSource}
+        loading={clients === null}
+        dataSource={clients}
         columns={columns}
       />
       <ClientModal 

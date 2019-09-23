@@ -11,9 +11,8 @@ namespace API.Services
     {
         public OrderSheetService(IOrderSheetDatabase Database)
         {
-            this.Database = Database;
+            
         }
-
         IOrderSheetDatabase Database { get; set; }
 
         public OrderSheet CreateOrderSheet(OrderSheet orderSheet)
@@ -25,6 +24,7 @@ namespace API.Services
             orderSheet.ReferenceCode = Base64Encode(orderSheet.ClientCpf+DateTime.Now.ToString());
             return Database.UpsertOrderSheet(orderSheet);
         }
+
 
         public OrderSheet GetOrderSheet(string referenceCode)
         {
