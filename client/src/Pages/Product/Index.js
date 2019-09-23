@@ -1,7 +1,10 @@
-import React from 'react'
-import { Table, PageHeader, Icon , Divider, Button, Tooltip } from 'antd'
+import React, { useState } from 'react'
+import { Table, PageHeader, Icon , Divider, Button , Tooltip } from 'antd'
+import useReactRouter from 'use-react-router'
+import ProductModal from './ProductModal'
 
 export default () => {
+  const { history } = useReactRouter()
 
   const dataSource = [
     {
@@ -63,7 +66,7 @@ export default () => {
   return (
     <div>
       <PageHeader
-        onBack={() => null}
+        onBack={() => history.push('/')}
         title="Lista de Produtos"
         extra={[
           <Button type="primary" icon="plus" key="new">
@@ -74,6 +77,10 @@ export default () => {
       <Table
         dataSource={dataSource}
         columns={columns}
+      />
+       <ProductModal 
+       {...product_modal}
+        closeModal={() => setProductModal({})}
       />
     </div>
   )

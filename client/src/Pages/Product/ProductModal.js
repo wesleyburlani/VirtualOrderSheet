@@ -3,13 +3,13 @@ import { Modal, Button, Form, InputNumber, Row, Col, DatePicker, Select, Input }
 
 const { Option } = Select
 
-export default Form.create()(({ visible, client_id, form, closeModal }) => {
+export default Form.create()(({ visible, product_id, form, closeModal }) => {
   const { getFieldDecorator } = form
 
   useEffect(() => {
-    if (visible && client_id)
+    if (visible && product_id)
       console.log('Aqui sera feito request')
-  }, [visible, client_id])
+  }, [visible, product_id])
 
   const close = () => {
     form.resetFields()
@@ -19,20 +19,20 @@ export default Form.create()(({ visible, client_id, form, closeModal }) => {
   const submit = () => {
     
   }
-  const clients = [
+  const products = [
     {
       id: '1',
-      name: 'Mike Hong',
+      name: 'Bebida A',
     },
     {
       id: '2',
-      name: 'John XXX',
+      name: 'Bebida B',
     },
   ]
 
   return (
     <Modal
-      title={`${client_id ? 'Editando' : 'Criando'} cliente`}
+      title={`${product_id ? 'Editando' : 'Criando'} cliente`}
       visible={visible}
       width={600}
       onCancel={close}
@@ -42,7 +42,7 @@ export default Form.create()(({ visible, client_id, form, closeModal }) => {
             Cancelar
           </Button>
           <Button type="primary" onClick={submit}>
-            {client_id ? 'Atualizar' : 'Salvar'}
+            {product_id ? 'Atualizar' : 'Salvar'}
           </Button>
         </>
       }
@@ -51,36 +51,36 @@ export default Form.create()(({ visible, client_id, form, closeModal }) => {
         <Row gutter={16}>
 
           <Col span={12}>
-            <Form.Item label="Nome Completo">
+            <Form.Item label="Nome da Bebida">
               {getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'Informe o nome competo' }]
+                  rules: [{ required: true, message: 'Informe o nome da Bebida' }]
                 })(
-                <Input placeholder="Nome Completo"/>
+                <Input placeholder="Nome da Bebida"/>
               )}
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="CPF">
-              {getFieldDecorator('cpf', {
-                rules: [{ required: true, message: 'Informe o CPF'}]
+            <Form.Item label="Price">
+              {getFieldDecorator('price', {
+                rules: [{ required: true, message: 'Informe o preço'}]
               })(
-                <Input placeholder="XXXXXXXXX-XX"/>
+                <Input placeholder="0.00"/>
               )}
             </Form.Item>
           </Col>
           <Col span={8}>
-            <Form.Item label="Telefone">
-              {getFieldDecorator('fone', {
+            <Form.Item label="Descrição">
+              {getFieldDecorator('description', {
                 
               })(
-              <Input placeholder="(xx) xxxx-xxxx"/>
+              <Input placeholder=""/>
               )}
             </Form.Item>
           </Col>
           <Col span={16}>
-            <Form.Item label="Email">
-              {getFieldDecorator('email')(
-                <Input placeholder="example@email.com"/>
+            <Form.Item label="Estoque">
+              {getFieldDecorator('stock')(
+                <Input placeholder="0"/>
               )}
             </Form.Item>
           </Col>
