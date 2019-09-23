@@ -32,7 +32,7 @@ export default Form.create()(({ visible, product_id, form, closeModal }) => {
 
   return (
     <Modal
-      title={`${product_id ? 'Editando' : 'Criando'} cliente`}
+      title={`${product_id ? 'Editando' : 'Criando'} produto`}
       visible={visible}
       width={600}
       onCancel={close}
