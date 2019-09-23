@@ -1,11 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, PageHeader, Button, Icon, Divider, Tooltip } from 'antd'
 import useReactRouter from 'use-react-router'
+import axios from 'axios'
 import OrderModal from './OrderModal'
 
 export default () => {
   const { history } = useReactRouter()
   const [order_modal, setOrderModal] = useState({})
+  const [orders, setOrders] = useState(null)
+
+  const getOrders = () => {
+    axios.get('/api/Orders')
+      .then(result => setOrders(result.data))
+  }
+
+  useEffect(getOrders, [])
 
   const dataSource = [
     {
@@ -42,20 +51,14 @@ export default () => {
 
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-    }, {
       title: 'Cliente',
-      dataIndex: 'client.name',
+      dataIndex: 'client_cpf',
     }, {
       title: 'Entrada',
-      dataIndex: 'enter_date',
+      dataIndex: 'created_date',
     }, {
       title: 'Saída',
-      dataIndex: 'exit_date',
-    }, {
-      title: 'Valor',
-      dataIndex: 'value',
+      dataIndex: 'finished_date',
     }, {
       title: 'Status',
       dataIndex: 'status',
@@ -67,7 +70,7 @@ export default () => {
       render: (_, order) => (
         <div>
           <Tooltip title="Editar">
-            <a onClick={() => setOrderModal({ visible: true, order_id: order.id })}>
+            <a onClick={() => setOrderModal({ visible: true, order })}>
               <Icon type="edit" />
             </a>
           </Tooltip>
@@ -100,9 +103,10 @@ export default () => {
       />
 
       <Table
+        loading={orders === null}
         columns={columns}
-        dataSource={dataSource}
-        rowKey={obj => obj.id}
+        dataSource={orders}
+        rowKey={obj => obj.referenceCode}
       />
 
       <OrderModal

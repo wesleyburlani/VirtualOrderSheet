@@ -88,10 +88,10 @@ export default () => {
         title="Lista de Clientes"
         extra={[
           <Button 
-          type="primary" 
-          icon="plus" 
-          key="new"
-          onClick={() => setClientModal({ visible: true })}
+            type="primary" 
+            icon="plus" 
+            key="new"
+            onClick={() => setClientModal({ visible: true })}
           >
             Criar cliente
           </Button>
