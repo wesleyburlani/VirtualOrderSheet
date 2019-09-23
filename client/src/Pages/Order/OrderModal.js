@@ -3,16 +3,28 @@ import { Modal, Button, Form, InputNumber, Row, Col, DatePicker, Select } from '
 
 const { Option } = Select
 
-export default Form.create()(({ visible, order_id, form, close }) => {
+export default Form.create()(({ visible, order_id, form, closeModal }) => {
   const { getFieldDecorator } = form
 
   useEffect(() => {
-    if (visible && order_id)
+    if (visible && order_id) {
       console.log('Aqui sera feito request')
+      form.setFieldsValue({ value: 1221 })
+    }
   }, [visible, order_id])
 
+  const close = () => {
+    form.resetFields()
+    closeModal()
+  }
+
   const submit = () => {
-    
+    form.validateFields((errors, values) => {
+      if (errors) return
+
+      console.log(values)
+      close()
+    })
   }
 
   const clients = [
