@@ -24,6 +24,8 @@ namespace API.Services
             orderSheet.ReferenceCode = Base64Encode(orderSheet.ClientCpf+DateTime.Now.ToString());
             orderSheet.CreatedDate = DateTime.Now;
             orderSheet.Status = OrderSheetStatus.open;
+            orderSheet.FinishedDate = null;
+            orderSheet.Products = new List<OrderProduct>();
             return Database.UpsertOrderSheet(orderSheet);
         }
 
@@ -56,6 +58,8 @@ namespace API.Services
             OrderSheet reference = Database.GetOrderSheet(r => r.ReferenceCode == referenceCode);;
             if(reference == null)
                 throw new OrderSheetNotFoundException("Comanda não encontrada");
+            foreach(var p in products)
+                p.DateTime = DateTime.Now;
             reference.Products.AddRange(products);
             return Database.UpsertOrderSheet(reference);
         }

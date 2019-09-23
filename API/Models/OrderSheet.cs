@@ -23,10 +23,10 @@ namespace API.Models
         public string ClientCpf { get; set; }
 
         [JsonProperty("created_date")]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         [JsonProperty("finished_date")]
-        public DateTime FinishedDate { get; set; }
+        public DateTime? FinishedDate { get; set; }
 
         [JsonProperty("status")]
         [JsonConverter(typeof(StringEnumConverter))]
@@ -45,6 +45,6 @@ namespace API.Models
         public long Quantity { get; set; }
 
         [JsonProperty("date_time")]
-        public string DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
     }
 }
