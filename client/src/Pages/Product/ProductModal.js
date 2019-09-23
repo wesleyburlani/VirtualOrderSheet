@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
-import { Modal, Button, Form, InputNumber, Row, Col, DatePicker, Select, Input } from 'antd'
+import { Modal, Button, Form, Row, Col, Input, message } from 'antd'
+import axios from 'axios'
 
-const { Option } = Select
-
-export default Form.create()(({ visible, product_id, form, closeModal }) => {
-  const { getFieldDecorator } = form
+export default Form.create()(({ visible, product, form, closeModal, onUpdate }) => {
+  const { getFieldDecorator, setFieldsValue } = form
 
   useEffect(() => {
-    if (visible && product_id)
-      console.log('Aqui sera feito request')
-  }, [visible, product_id])
+    if (visible && product)
+      setFieldsValue(product)
+  }, [visible, product])
 
   const close = () => {
     form.resetFields()
@@ -17,22 +16,26 @@ export default Form.create()(({ visible, product_id, form, closeModal }) => {
   }
 
   const submit = () => {
-    
+    form.validateFields((errors, values) => {
+      if (errors) return
+
+      const request = product ? axios.put : axios.post
+
+      request(`/api/Product/${(product || {}).referenceCode || ''}`, values)
+        .then(() => {
+          onUpdate()
+          close() 
+        })
+        .catch(err => {
+          message.error(err.response.data.message)
+        })
+    })
   }
-  const products = [
-    {
-      id: '1',
-      name: 'Bebida A',
-    },
-    {
-      id: '2',
-      name: 'Bebida B',
-    },
-  ]
+
 
   return (
     <Modal
-      title={`${product_id ? 'Editando' : 'Criando'} produto`}
+      title={`${product ? 'Editando' : 'Criando'} produto`}
       visible={visible}
       width={600}
       onCancel={close}
@@ -42,7 +45,7 @@ export default Form.create()(({ visible, product_id, form, closeModal }) => {
             Cancelar
           </Button>
           <Button type="primary" onClick={submit}>
-            {product_id ? 'Atualizar' : 'Salvar'}
+            {product ? 'Atualizar' : 'Salvar'}
           </Button>
         </>
       }
@@ -51,16 +54,25 @@ export default Form.create()(({ visible, product_id, form, closeModal }) => {
         <Row gutter={16}>
 
           <Col span={12}>
-            <Form.Item label="Nome da Bebida">
+            <Form.Item label="Nome do Produto">
               {getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'Informe o nome da Bebida' }]
+                  rules: [{ required: true, message: 'Informe o nome da Produto' }]
                 })(
-                <Input placeholder="Nome da Bebida"/>
+                <Input placeholder="Nome do Produto"/>
               )}
             </Form.Item>
           </Col>
-          <Col span={12}>
-            <Form.Item label="Price">
+          <Col span={6}>
+            <Form.Item label="Código">
+              {getFieldDecorator('referenceCode', {
+                rules: [{ required: true, message: 'Informe o código'}]
+              })(
+                <Input placeholder="Código"/>
+              )}
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item label="Preço">
               {getFieldDecorator('price', {
                 rules: [{ required: true, message: 'Informe o preço'}]
               })(

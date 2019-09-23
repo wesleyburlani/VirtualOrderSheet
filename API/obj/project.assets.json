@@ -13254,23 +13254,39 @@
     ]
   },
   "packageFolders": {
+<<<<<<< Updated upstream
     "/home/vinicius-reis/.nuget/packages/": {},
+=======
+    "/home/aluno-uffs/.nuget/packages/": {},
+>>>>>>> Stashed changes
     "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< Updated upstream
       "projectUniqueName": "/home/vinicius-reis/VirtualOrderSheet/API/API.csproj",
       "projectName": "API",
       "projectPath": "/home/vinicius-reis/VirtualOrderSheet/API/API.csproj",
       "packagesPath": "/home/vinicius-reis/.nuget/packages/",
       "outputPath": "/home/vinicius-reis/VirtualOrderSheet/API/obj/",
+=======
+      "projectUniqueName": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj",
+      "projectName": "API",
+      "projectPath": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj",
+      "packagesPath": "/home/aluno-uffs/.nuget/packages/",
+      "outputPath": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/obj/",
+>>>>>>> Stashed changes
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
+<<<<<<< Updated upstream
         "/home/vinicius-reis/.nuget/NuGet/NuGet.Config"
+=======
+        "/home/aluno-uffs/.nuget/NuGet/NuGet.Config"
+>>>>>>> Stashed changes
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"

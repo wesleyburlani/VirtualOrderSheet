@@ -1,32 +1,33 @@
-import React, { useState } from 'react'
-import { Table, PageHeader, Icon , Divider, Button , Tooltip } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { Table, PageHeader, Icon , Divider, Button, Tooltip, Popconfirm, message } from 'antd'
 import useReactRouter from 'use-react-router'
+import axios from 'axios'
 import ProductModal from './ProductModal'
 
 export default () => {
   const { history } = useReactRouter()
   const [product_modal, setProductModal] = useState({})
-
-  const dataSource = [
-    {
-        referenceCode: '1',
-        name: 'Bebida A',
-        price: 8.00,
-        description: 'SsS',
-        stock: 10,
-    },
-    {
-        referenceCode: '2',
-        name: 'Bebida B',
-        price: 10.00,
-        description: 'ACF',
-        stock: 15,
-      },
-  ]
+  const [products, setProducts] = useState(null)
   
+  const getProducts = () => { 
+    axios.get('/api/Product')
+      .then(result => setProducts(result.data))
+  }
+
+  useEffect(getProducts, [])
+  
+  const deleteProduct = referenceCode => {
+    axios.delete(`/api/Product/${referenceCode}`)
+      .then(() => {
+        message.success('Produto excluído com sucesso!')
+        getProducts()
+      })
+      .catch(() => message.error('Não foi possível excluir esse produto'))
+  }
+
   const columns = [
     {
-      title: 'Bebida',
+      title: 'Produto',
       dataIndex: 'name',
     },
     {
@@ -36,10 +37,6 @@ export default () => {
     {
       title: 'Descrição',
       dataIndex: 'description',
-    },
-    {
-      title: 'Estoque',
-      dataIndex: 'stock',  
     },
     {
       title: 'Ações',
@@ -55,9 +52,17 @@ export default () => {
           </Tooltip>
           <Divider type="vertical" />
           <Tooltip title="Excluir">
-            <a style={{ color: 'red' }}>
-              <Icon type="delete" />
-            </a>
+            <Popconfirm
+              title="Tem certeza?"
+              onConfirm={() => deleteProduct(product.referenceCode)}
+              placement="left"
+              okType="danger"
+              okText="Excluir"
+            >
+              <a style={{ color: 'red' }}>
+                <Icon type="delete" />
+              </a>
+            </Popconfirm>
           </Tooltip>
         </div>
       )
@@ -71,22 +76,25 @@ export default () => {
         title="Lista de Produtos"
         extra={[
           <Button 
-            onClick={() => setProductModal({ visible: true })}
             type="primary" 
             icon="plus" 
             key="new"
+            onClick={() => setProductModal({ visible: true })}
           >
             Novo Produto
           </Button>
         ]}
       />
       <Table
-        dataSource={dataSource}
+        loading={products === null}
+        dataSource={products}
         columns={columns}
+        rowKey={item => item.referenceCode}
       />
        <ProductModal 
        {...product_modal}
         closeModal={() => setProductModal({})}
+        onUpdate={getProducts}
       />
     </div>
   )
