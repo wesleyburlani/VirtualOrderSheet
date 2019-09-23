@@ -2,13 +2,13 @@ import React, { useEffect } from 'react'
 import { Modal, Button, Form, Row, Col, Input, message } from 'antd'
 import axios from 'axios'
 
-export default Form.create()(({ visible, client_cpf, form, closeModal, onUpdate }) => {
-  const { getFieldDecorator } = form
+export default Form.create()(({ visible, client, form, closeModal, onUpdate }) => {
+  const { getFieldDecorator, setFieldsValue } = form
 
   useEffect(() => {
-    if (visible && client_cpf)
-      console.log('Aqui sera feito request')
-  }, [visible, client_cpf])
+    if (visible && client)
+      setFieldsValue(client)
+  }, [visible, client])
 
   const close = () => {
     form.resetFields()
@@ -19,9 +19,9 @@ export default Form.create()(({ visible, client_cpf, form, closeModal, onUpdate 
     form.validateFields((errors, values) => {
       if (errors) return
 
-      const request = client_cpf ? axios.put : axios.post
+      const request = client ? axios.put : axios.post
 
-      request(`/api/Client/${client_cpf || ''}`, values)
+      request(`/api/Client/${(client || {}).cpf || ''}`, values)
         .then(() => {
           onUpdate()
           close()
@@ -34,7 +34,7 @@ export default Form.create()(({ visible, client_cpf, form, closeModal, onUpdate 
 
   return (
     <Modal
-      title={`${client_cpf ? 'Editando' : 'Criando'} cliente`}
+      title={`${client ? 'Editando' : 'Criando'} cliente`}
       visible={visible}
       width={600}
       onCancel={close}
@@ -44,7 +44,7 @@ export default Form.create()(({ visible, client_cpf, form, closeModal, onUpdate 
             Cancelar
           </Button>
           <Button type="primary" onClick={submit}>
-            {client_cpf ? 'Atualizar' : 'Salvar'}
+            {client ? 'Atualizar' : 'Salvar'}
           </Button>
         </>
       }
@@ -68,7 +68,7 @@ export default Form.create()(({ visible, client_cpf, form, closeModal, onUpdate 
               })(
                 <Input
                   placeholder="XXXXXXXXX-XX"
-                  disabled={client_cpf}
+                  disabled={client}
                 />
               )}
             </Form.Item>

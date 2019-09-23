@@ -49,7 +49,7 @@ export default () => {
       render: (_, product) => (
         <div>
           <Tooltip title="Editar">
-            <a onClick={() => setProductModal({ visible: true, product_id: product.id })}>
+            <a onClick={() => setProductModal({ visible: true, product })}>
               <Icon type="edit" />
             </a>
           </Tooltip>
