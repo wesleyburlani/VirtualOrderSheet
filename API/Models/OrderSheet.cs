@@ -34,6 +34,8 @@ namespace API.Models
 
         [JsonProperty("products")]
         public List<OrderProduct> Products { get; set; }
+        
+        
     }
 
     public partial class OrderProduct
@@ -43,6 +45,9 @@ namespace API.Models
 
         [JsonProperty("quantity")]
         public long Quantity { get; set; }
+
+        [JsonProperty("price")]
+        public double Price{ get; set; }
 
         [JsonProperty("date_time")]
         public DateTime? DateTime { get; set; }
