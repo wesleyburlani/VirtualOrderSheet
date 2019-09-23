@@ -3,10 +3,12 @@ import { Table, PageHeader, Icon , Divider, Button , Tooltip, Popconfirm, messag
 import useReactRouter from 'use-react-router'
 import axios from 'axios'
 import ClientModal from './ClientModal'
+import ShowModal from './ShowModal'
 
 export default () => {
   const { history } = useReactRouter()
   const [client_modal, setClientModal] = useState({})
+  const [show_modal, setShowModal] = useState({})
   const [clients, setClients] = useState(null)
 
   const getClients = () => {
@@ -46,9 +48,15 @@ export default () => {
       title: 'Ações',
       key: 'actions',
       fixed: 'right',
-      width: 100,
+      width: 130,
       render: (_, client) => (
         <div>
+          <Tooltip title="Visualizar">
+            <a onClick={() => setClientModal({ visible: true, client })}>
+              <Icon type="eye" />
+            </a>
+          </Tooltip>
+          <Divider type="vertical"/>
           <Tooltip title="Editar">
             <a onClick={() => setClientModal({ visible: true, client })}>
               <Icon type="edit" />
@@ -96,9 +104,13 @@ export default () => {
         rowKey={item => item.cpf}
       />
       <ClientModal 
-       {...client_modal}
+        {...client_modal}
         closeModal={() => setClientModal({})}
         onUpdate={getClients}
+      />
+      <ShowModal 
+        {...show_modal}
+        closeModal={() => setShowModal({})}
       />
     </div>
   )
