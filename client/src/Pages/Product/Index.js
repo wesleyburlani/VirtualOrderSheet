@@ -46,10 +46,10 @@ export default () => {
       key: 'actions',
       fixed: 'right',
       width: 100,
-      render: () => (
+      render: (_, product) => (
         <div>
           <Tooltip title="Editar">
-            <a>
+            <a onClick={() => setProductModal({ visible: true, product_id: product.id })}>
               <Icon type="edit" />
             </a>
           </Tooltip>
@@ -71,9 +71,10 @@ export default () => {
         title="Lista de Produtos"
         extra={[
           <Button 
-          type="primary" 
-          icon="plus" 
-          key="new"
+            onClick={() => setProductModal({ visible: true })}
+            type="primary" 
+            icon="plus" 
+            key="new"
           >
             Novo Produto
           </Button>

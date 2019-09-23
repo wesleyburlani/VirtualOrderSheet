@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import { Table, PageHeader, Icon , Divider, Button , Tooltip } from 'antd'
 import useReactRouter from 'use-react-router'
 import ClientModal from './ClientModal'
+import { api } from '../../endpoints'
 
 export default () => {
   const { history } = useReactRouter()
   const [client_modal, setClientModal] = useState({})
+
+  console.log(api)
 
   const dataSource = [
     {
