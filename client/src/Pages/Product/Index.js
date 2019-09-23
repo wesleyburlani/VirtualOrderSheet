@@ -5,6 +5,7 @@ import ProductModal from './ProductModal'
 
 export default () => {
   const { history } = useReactRouter()
+  const [product_modal, setProductModal] = useState({})
 
   const dataSource = [
     {
@@ -69,7 +70,11 @@ export default () => {
         onBack={() => history.push('/')}
         title="Lista de Produtos"
         extra={[
-          <Button type="primary" icon="plus" key="new">
+          <Button 
+          type="primary" 
+          icon="plus" 
+          key="new"
+          >
             Novo Produto
           </Button>
         ]}
