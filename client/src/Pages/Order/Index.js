@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Table, PageHeader, Button, Icon, Divider, Tooltip } from 'antd'
+import { Table, PageHeader, Button, Icon, Divider, Tooltip, Tag } from 'antd'
 import useReactRouter from 'use-react-router'
 import axios from 'axios'
-import OrderModal from './OrderModal'
+import moment from 'moment'
+import NewOrderModal from './NewOrderModal'
+import EditOrderModal from './EditOrderModal'
 
 export default () => {
   const { history } = useReactRouter()
-  const [order_modal, setOrderModal] = useState({})
+  const [edit_order_modal, setEditOrderModal] = useState({})
+  const [new_order_modal_visible, setNewOrderModalVisible] = useState(false)
   const [orders, setOrders] = useState(null)
 
   const getOrders = () => {
@@ -16,52 +19,27 @@ export default () => {
 
   useEffect(getOrders, [])
 
-  const dataSource = [
-    {
-      id: 10,
-      enter_date: '02/11/2019 - 19:00',
-      exit_date: '',
-      value: 100.0,
-      status: 'Pago',
-      client: {
-        name: 'Anthony'
-      },
-    },
-    {
-      id: 11,
-      enter_date: '02/11/2019 - 19:05',
-      exit_date: '',
-      value: 105.0,
-      status: 'Pago',
-      client: {
-        name: 'Pamela'
-      },
-    },
-    {
-      id: 12,
-      enter_date: '02/11/2019 - 19:07',
-      exit_date: '',
-      value: 155.0,
-      status: 'Pago',
-      client: {
-        name: 'Cleisson'
-      },
-    },
-  ]
-
   const columns = [
     {
       title: 'Cliente',
-      dataIndex: 'client_cpf',
+      dataIndex: 'client.name',
     }, {
       title: 'Entrada',
       dataIndex: 'created_date',
+      render: date => moment(date).format('DD/MM/YYYY HH:mm'),
     }, {
       title: 'Saída',
       dataIndex: 'finished_date',
+      render: date => date ? moment(date).format('DD/MM/YYYY HH:mm') : '',
     }, {
       title: 'Status',
       dataIndex: 'status',
+      align: 'center',
+      render: status => (
+        status === 'open'
+          ? <Tag color="green">Em aberto</Tag>
+          : <Tag>Finalizado</Tag>
+      )
     }, {
       title: 'Ações',
       key: 'actions',
@@ -70,14 +48,8 @@ export default () => {
       render: (_, order) => (
         <div>
           <Tooltip title="Editar">
-            <a onClick={() => setOrderModal({ visible: true, order })}>
+            <a onClick={() => setEditOrderModal({ visible: true, order })}>
               <Icon type="edit" />
-            </a>
-          </Tooltip>
-          <Divider type="vertical" />
-          <Tooltip title="Excluir">
-            <a style={{ color: 'red' }}>
-              <Icon type="delete" />
             </a>
           </Tooltip>
         </div>
@@ -95,7 +67,7 @@ export default () => {
             key="new"
             type="primary"
             icon="plus"
-            onClick={() => setOrderModal({ visible: true })}
+            onClick={() => setNewOrderModalVisible(true)}
           >
             Criar comanda
           </Button>
@@ -109,10 +81,15 @@ export default () => {
         rowKey={obj => obj.referenceCode}
       />
 
-      <OrderModal
-        {...order_modal}
-        closeModal={() => setOrderModal({})}
+      <NewOrderModal
+        visible={new_order_modal_visible}
+        closeModal={() => setNewOrderModalVisible(false)}
         onUpdate={getOrders}
+      />
+
+      <EditOrderModal
+        {...edit_order_modal}
+        closeModal={() => setEditOrderModal({ visible: false })}
       />
     </div>
   )

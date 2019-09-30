@@ -5,3 +5,7 @@
 .ant-pagination.ant-table-pagination {
   padding: 0 24px;
 }
+
+.form-item-no-margin .ant-form-item {
+  margin-bottom: 0;
+}

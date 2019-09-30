@@ -14,6 +14,7 @@ export default Form.create()(({ visible, form, onUpdate, closeModal }) => {
 
       axios.post('/api/Order/open', { client_cpf })
         .then(() => {
+          form.resetFields()
           onUpdate()
           closeModal()
         })
