@@ -23,7 +23,7 @@ export default Form.create()(({ visible, client, form, closeModal, onUpdate }) =
 
       request(`/api/Client/${(client || {}).cpf || ''}`, values)
         .then(() => {
-          onUpdate()
+          onUpdate(values.cpf)
           close()
         })
         .catch(err => {

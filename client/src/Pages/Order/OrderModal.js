@@ -1,130 +1,72 @@
-import React, { useEffect } from 'react'
-import { Modal, Button, Form, InputNumber, Row, Col, DatePicker, Select } from 'antd'
+import React, { useState } from 'react'
+import { Modal, Form, Row, Col, Button, message } from 'antd'
+import axios from 'axios'
+import ClientInput from '../../Components/Inputs/Client'
+import ClientModal from '../Client/ClientModal'
 
-const { Option } = Select
-
-export default Form.create()(({ visible, order_id, form, closeModal }) => {
-  const { getFieldDecorator } = form
-
-  useEffect(() => {
-    if (visible && order_id) {
-      console.log('Aqui sera feito request')
-      form.setFieldsValue({ value: 1221 })
-    }
-  }, [visible, order_id])
-
-  const close = () => {
-    form.resetFields()
-    closeModal()
-  }
+export default Form.create()(({ visible, form, onUpdate, closeModal }) => {
+  const { getFieldDecorator, setFieldsValue } = form
+  const [client_modal_visible, setClientModalVisible] = useState(false)
 
   const submit = () => {
-    form.validateFields((errors, values) => {
+    form.validateFields((errors, { client_cpf }) => {
       if (errors) return
 
-      console.log(values)
-      close()
+      axios.post('/api/Order/open', { client_cpf })
+        .then(() => {
+          onUpdate()
+          closeModal()
+        })
+        .catch(err => {
+          message.error(err.response.data.message)
+        })
     })
   }
 
-  const clients = [
-    {
-      id: '1',
-      name: 'Mike Hong',
-    },
-    {
-      id: '2',
-      name: 'John XXX',
-    },
-  ]
-
   return (
     <Modal
-      title={`${order_id ? 'Editando' : 'Criando'} comanda`}
+      title="Nova comanda"
       visible={visible}
-      width={600}
-      onCancel={close}
+      onCancel={closeModal}
       footer={
         <>
-          <Button onClick={close}>
+          <Button onClick={closeModal}>
             Cancelar
           </Button>
           <Button type="primary" onClick={submit}>
-            {order_id ? 'Atualizar' : 'Salvar'}
+            Salvar
           </Button>
         </>
       }
     >
       <Form layout="vertical">
-        <Row gutter={16}>
-
-          <Col span={12}>
-            <Form.Item label="Data de entrada">
-              {getFieldDecorator('enter_date', {
-                rules: [{ required: true, message: 'Informe a data de entrada' }]
-              })(
-                <DatePicker
-                  showTime
-                  format="DD/MM/YYYY [às] HH:mm"
-                  style={{ width: '100%' }}
-                />
-              )}
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Data de saída">
-              {getFieldDecorator('exit_date')(
-                <DatePicker
-                  showTime
-                  format="DD/MM/YYYY [às] HH:mm"
-                  style={{ width: '100%' }}
-                />
-              )}
-            </Form.Item>
-          </Col>
-          <Col span={6}>
-            <Form.Item label="Valor">
-              {getFieldDecorator('value', {
-                initialValue: 0,
-              })(
-                <InputNumber
-                  style={{ width: '100%' }}
-                  min={0}
-                />
-              )}
-            </Form.Item>
-          </Col>
-          <Col span={6}>
-            <Form.Item label="Status">
-              {getFieldDecorator('status', {
-                rules: [{ required: true, message: 'Informe um status' }],
-                initialValue: 'open'
-              })(
-                <Select placeholder="Status">
-                  <Option value="open">Em aberto</Option>
-                  <Option value="paid">Pago</Option>
-                </Select>
-              )}
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Cliente">
-              {getFieldDecorator('client', {
+        <Row gutter={16} type="flex" align="bottom">
+          <Col span={18}>
+            <Form.Item label="Informe um cliente">
+              {getFieldDecorator('client_cpf', {
                 rules: [{ required: true, message: 'Informe um cliente' }]
-              })(
-                <Select placeholder="Cliente">
-                  {clients.map(client => (
-                    <Option key={client.id} value={client.id}>
-                      {client.name}
-                    </Option>
-                  ))}
-                </Select>
-              )}
+              })(<ClientInput />)}
             </Form.Item>
           </Col>
-
+          <Col span={6}>
+            <Button
+              icon="plus"
+              block
+              type="primary"
+              style={{ marginBottom: 32 }}
+              onClick={() => setClientModalVisible(true)}
+            >
+              Novo
+            </Button>
+          </Col>
         </Row>
       </Form>
+
+      <ClientModal
+        visible={client_modal_visible}
+        closeModal={() => setClientModalVisible(false)}
+        onUpdate={client_cpf => setFieldsValue({ client_cpf })}
+      />
     </Modal>
   )
 })

@@ -10,7 +10,7 @@ export default () => {
   const [orders, setOrders] = useState(null)
 
   const getOrders = () => {
-    axios.get('/api/Orders')
+    axios.get('/api/Order')
       .then(result => setOrders(result.data))
   }
 
@@ -112,6 +112,7 @@ export default () => {
       <OrderModal
         {...order_modal}
         closeModal={() => setOrderModal({})}
+        onUpdate={getOrders}
       />
     </div>
   )
