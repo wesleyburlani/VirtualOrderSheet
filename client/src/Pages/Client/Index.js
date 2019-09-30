@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Table, PageHeader, Icon , Divider, Button , Tooltip } from 'antd'
+import { Table, PageHeader, Icon , Divider, Button , Tooltip, Popconfirm, message } from 'antd'
 import useReactRouter from 'use-react-router'
 import axios from 'axios'
 import ClientModal from './ClientModal'
+import ShowModal from './ShowModal'
 
 export default () => {
   const { history } = useReactRouter()
   const [client_modal, setClientModal] = useState({})
+  const [show_modal, setShowModal] = useState({})
   const [clients, setClients] = useState(null)
 
   const getClients = () => {
@@ -15,6 +17,15 @@ export default () => {
   }
 
   useEffect(getClients, [])
+
+  const deleteClient = cpf => {
+    axios.delete(`/api/Client/${cpf}`)
+      .then(() => {
+        message.success('Cliente excluído com sucesso!')
+        getClients()
+      })
+      .catch(() => message.error('Não foi possível excluir esse cliente'))
+  }
   
   const columns = [
     {
@@ -37,19 +48,33 @@ export default () => {
       title: 'Ações',
       key: 'actions',
       fixed: 'right',
-      width: 100,
+      width: 130,
       render: (_, client) => (
         <div>
+          <Tooltip title="Visualizar">
+            <a onClick={() => setClientModal({ visible: true, client })}>
+              <Icon type="eye" />
+            </a>
+          </Tooltip>
+          <Divider type="vertical"/>
           <Tooltip title="Editar">
-          <a onClick={() => setClientModal({ visible: true, client_cpf: client.cpf })}>
-            <Icon type="edit" />
-          </a>
+            <a onClick={() => setClientModal({ visible: true, client })}>
+              <Icon type="edit" />
+            </a>
           </Tooltip>
           <Divider type="vertical"/>
           <Tooltip title="Excluir">
-          <a style={{ color: 'red' }}>
-            <Icon type="delete" />
-          </a>
+            <Popconfirm
+              title="Tem certeza?"
+              onConfirm={() => deleteClient(client.cpf)}
+              placement="left"
+              okType="danger"
+              okText="Excluir"
+            >
+              <a style={{ color: 'red' }}>
+                <Icon type="delete" />
+              </a>
+            </Popconfirm>
           </Tooltip>
         </div>
       )
@@ -63,10 +88,10 @@ export default () => {
         title="Lista de Clientes"
         extra={[
           <Button 
-          type="primary" 
-          icon="plus" 
-          key="new"
-          onClick={() => setClientModal({ visible: true })}
+            type="primary" 
+            icon="plus" 
+            key="new"
+            onClick={() => setClientModal({ visible: true })}
           >
             Criar cliente
           </Button>
@@ -79,9 +104,13 @@ export default () => {
         rowKey={item => item.cpf}
       />
       <ClientModal 
-       {...client_modal}
+        {...client_modal}
         closeModal={() => setClientModal({})}
         onUpdate={getClients}
+      />
+      <ShowModal 
+        {...show_modal}
+        closeModal={() => setShowModal({})}
       />
     </div>
   )

@@ -71,6 +71,16 @@ namespace API.Services
         public static string Base64Decode(string base64EncodedData) {
             var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
-        }  
+        }
+
+        public OrderSheet AddProductsByCpf(string cpf, IEnumerable<OrderProduct> products)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OrderSheet CloseOrderByCpf(string cpf)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

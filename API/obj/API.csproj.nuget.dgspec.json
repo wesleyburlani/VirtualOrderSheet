@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/home/cleisson/Documentos/UFFS-CC/Planejamento-e-Gestao-de-Projetos/VirtualOrderSheet/API/API.csproj": {}
+    "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj": {}
   },
   "projects": {
-    "/home/cleisson/Documentos/UFFS-CC/Planejamento-e-Gestao-de-Projetos/VirtualOrderSheet/API/API.csproj": {
+    "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/cleisson/Documentos/UFFS-CC/Planejamento-e-Gestao-de-Projetos/VirtualOrderSheet/API/API.csproj",
+        "projectUniqueName": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj",
         "projectName": "API",
-        "projectPath": "/home/cleisson/Documentos/UFFS-CC/Planejamento-e-Gestao-de-Projetos/VirtualOrderSheet/API/API.csproj",
-        "packagesPath": "/home/cleisson/.nuget/packages/",
-        "outputPath": "/home/cleisson/Documentos/UFFS-CC/Planejamento-e-Gestao-de-Projetos/VirtualOrderSheet/API/obj/",
+        "projectPath": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj",
+        "packagesPath": "/home/aluno-uffs/.nuget/packages/",
+        "outputPath": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/cleisson/.nuget/NuGet/NuGet.Config"
+          "/home/aluno-uffs/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"

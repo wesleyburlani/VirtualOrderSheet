@@ -18,7 +18,7 @@ namespace API.Services
         {
             Product reference = Database.GetProduct(product.ReferenceCode);
             if(reference != null)
-                throw new ProductAlreadyExistsException("Já existe um produto com esse reference code");
+                throw new ProductAlreadyExistsException("Já existe um produto com esse código");
             return Database.UpsertProduct(product);
         }
 
