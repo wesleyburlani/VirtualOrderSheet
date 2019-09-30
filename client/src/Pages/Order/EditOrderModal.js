@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Button, Form, Divider, Row, Col, DatePicker, InputNumber, Icon, message } from 'antd'
+import { Modal, Button, Form, Divider, Row, Col, DatePicker, InputNumber, Icon, Table, message } from 'antd'
 import moment from 'moment'
 import ClientInput from '../../Components/Inputs/Client'
 import ProductInput from '../../Components/Inputs/Product'
@@ -53,6 +53,24 @@ export default Form.create()(({ visible, order, form, closeModal, onUpdate }) =>
     setProducts(prev => prev.filter(p => p != id))
   }
 
+  const product_columns = [
+    {
+      title: 'Produto',
+      dataIndex: 'name',
+    }, {
+      title: 'Valor',
+      dataIndex: 'price',
+      render: price => price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    }, {
+      title: 'Qntd.',
+      dataIndex: 'quantity',
+    }
+  ]
+
+  const total_products = order ? order.products.reduce((acc, curr) => (
+    acc + (curr.price * curr.quantity)
+  ), 0) : 0
+
   return (
     <Modal
       title={`${order ? 'Editando' : 'Criando'} comanda`}
@@ -99,35 +117,23 @@ export default Form.create()(({ visible, order, form, closeModal, onUpdate }) =>
 
           {
             order && order.products.length > 0 &&
-            <Divider orientation="left">
-              Produtos consumidos
-            </Divider>
+            <Table
+              columns={product_columns}
+              dataSource={order ? order.products : []}
+              size="middle"
+              style={{ margin: '0 -16px' }}
+              pagination={false}
+              footer={() => (
+                <span>
+                  Total: {total_products.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                </span>
+              )}
+            />
           }
 
+          <Divider />
+
           <div className="form-item-no-margin">
-            {order && order.products.map((product, index) => (
-              <Row key={index} gutter={16} style={{ marginBottom: 5 }}>
-                <Col span={18}>
-                  <Form.Item label={index == 0 ? 'Produto' : ''}>
-                    <ProductInput
-                      value={product.referenceCode}
-                      disabled={true}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={4}>
-                  <Form.Item label={index == 0 ? 'Quantidade' : ''}>
-                    <InputNumber
-                      value={product.quantity}
-                      disabled={true}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            ))}
-
-            <Divider />
-
             {products.map((id, index) => (
               <Row gutter={16} type="flex" align="bottom">
                 <Col span={18}>

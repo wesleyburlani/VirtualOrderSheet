@@ -33,6 +33,7 @@ export default () => {
     {
       title: 'Preço',
       dataIndex: 'price',
+      render: price => price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
     },
     {
       title: 'Descrição',
