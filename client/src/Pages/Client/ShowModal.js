@@ -7,7 +7,7 @@ export default ({ visible, client, closeModal }) => {
   
   useEffect(() => {
     if (visible && client)
-      axios.get(`/api/Orders/${client.client_cpf}`)
+      axios.get(`/api/Order/${client.client_cpf}`)
         .then(result => {
           setOrders(result.data)
         })
