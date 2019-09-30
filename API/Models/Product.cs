@@ -23,7 +23,7 @@ namespace API.Models
         public string Name { get; set; }
 
         [JsonProperty("price")]
-        public long Price { get; set; }
+        public double Price { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }

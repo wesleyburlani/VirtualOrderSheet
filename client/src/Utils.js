@@ -3,5 +3,5 @@ export const currencyFormatter = value => (
 )
 
 export const currencyParser = value => (
-  parseInt(value.replace(/[^\d]/g, '')) / 100
+  parseFloat(value.replace(/[^\d]/g, '')) / 100.0
 )
