@@ -56,14 +56,16 @@ namespace API.Repositories.Storage
         {
             var filter = Builders<Customer>.Filter.Eq(c => c.Cpf, customer.Cpf);
             return GetCustomersCollection().FindOneAndReplace<Customer>(filter, customer,
-                new FindOneAndReplaceOptions<Customer, Customer>(){ IsUpsert = true });
+                new FindOneAndReplaceOptions<Customer, Customer>(){ IsUpsert = true , 
+                ReturnDocument = ReturnDocument.After});
         }
 
         public Product UpsertProduct(Product product)
         {
             var filter = Builders<Product>.Filter.Eq(p => p.ReferenceCode, product.ReferenceCode);
             return GetProductsCollection().FindOneAndReplace<Product>(filter, product,
-                new FindOneAndReplaceOptions<Product, Product>() { IsUpsert = true });
+                new FindOneAndReplaceOptions<Product, Product>() { IsUpsert = true , 
+                ReturnDocument = ReturnDocument.After});
         }
 
         public IEnumerable<OrderSheet> GetOrderSheets(Expression<Func<OrderSheet, bool>> filter)
@@ -82,7 +84,8 @@ namespace API.Repositories.Storage
         {
             var filter = Builders<OrderSheet>.Filter.Eq(p => p.ReferenceCode, orderSheet.ReferenceCode);
             return GetOrderSheetsCollection().FindOneAndReplace<OrderSheet>(filter, orderSheet,
-                new FindOneAndReplaceOptions<OrderSheet, OrderSheet>() { IsUpsert = true });
+                new FindOneAndReplaceOptions<OrderSheet, OrderSheet>() { IsUpsert = true, 
+                ReturnDocument = ReturnDocument.After });
         }
 
         private IMongoCollection<Product> GetProductsCollection()

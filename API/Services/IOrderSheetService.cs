@@ -13,12 +13,8 @@ namespace API.Services
 
         OrderSheet GetOrderSheet(string referenceCode);
 
-        OrderSheet AddProducts(string referenceCode, IEnumerable<OrderProduct> products);
+        OrderSheet AddProducts(string referenceCode, IEnumerable<AddOrderProduct> products);
 
         OrderSheet CloseOrderSheet(string referenceCode);
-
-        OrderSheet AddProductsByCpf(string cpf, IEnumerable<OrderProduct> products);
-
-        OrderSheet CloseOrderByCpf(string cpf);
     }
 }

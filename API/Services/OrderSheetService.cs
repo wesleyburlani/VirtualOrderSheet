@@ -9,11 +9,13 @@ namespace API.Services
 {
     public class OrderSheetService : IOrderSheetService
     {
-        public OrderSheetService(IOrderSheetDatabase Database)
+        public OrderSheetService(IOrderSheetDatabase Database, IProductDatabase ProductDatabase)
         {
             this.Database = Database; 
+            this.ProductDatabase = ProductDatabase;
         }
         IOrderSheetDatabase Database { get; set; }
+        IProductDatabase ProductDatabase { get;set; }
 
         public OrderSheet OpenOrderSheet(OrderSheet orderSheet)
         {
@@ -53,14 +55,31 @@ namespace API.Services
             return references;
         }
 
-        public OrderSheet AddProducts(string referenceCode, IEnumerable<OrderProduct> products)
+        public OrderSheet AddProducts(string referenceCode, IEnumerable<AddOrderProduct> products)
         {
             OrderSheet reference = Database.GetOrderSheet(r => r.ReferenceCode == referenceCode);;
             if(reference == null)
                 throw new OrderSheetNotFoundException("Comanda não encontrada");
-            foreach(var p in products)
-                p.DateTime = DateTime.Now;
-            reference.Products.AddRange(products);
+            
+            if(reference.Status == OrderSheetStatus.closed)
+                throw new OrderSheetInconsistencyException("Não é possível adicionar produtos a uma comanda fechada");
+
+            foreach(var product in products)
+            {   
+                var pdRef = ProductDatabase.GetProduct(product.ProductReferenceCode);
+                if(pdRef == null)
+                    throw new ProductNotFoundException($"O produto {product.ProductReferenceCode} não existe");
+
+                reference.Products.Add(new OrderProduct()
+                {
+                    ReferenceCode = product.ProductReferenceCode,
+                    Quantity = product.Quantity,
+                    Name = pdRef.Name,
+                    Price = pdRef.Price,
+                    DateTime = DateTime.Now
+                });
+            }
+            
             return Database.UpsertOrderSheet(reference);
         }
 
@@ -71,16 +90,6 @@ namespace API.Services
         public static string Base64Decode(string base64EncodedData) {
             var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
-        }
-
-        public OrderSheet AddProductsByCpf(string cpf, IEnumerable<OrderProduct> products)
-        {
-            throw new NotImplementedException();
-        }
-
-        public OrderSheet CloseOrderByCpf(string cpf)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -75,7 +75,7 @@ namespace API.Controllers
 
         // PUT api/values/5
         [HttpPut("{referenceCode}/addproduct")]
-        public ActionResult<OrderSheet> Put(string referenceCode, [FromBody] IEnumerable<OrderProduct> orderProducts)
+        public ActionResult<OrderSheet> Put(string referenceCode, [FromBody] IEnumerable<AddOrderProduct> orderProducts)
         {
             try
             {
