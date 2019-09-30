@@ -14,7 +14,20 @@ export default () => {
 
   const getOrders = () => {
     axios.get('/api/Order')
-      .then(result => setOrders(result.data))
+      .then(result => {
+        const data = result.data.sort((a, b) => {
+          if (!a.finished_date) return -1
+
+          if (moment(a.finished_date).isBefore(moment(b.finished_date))) {
+            return 1
+          } else if (moment(a.finished_date).isAfter(moment(b.finished_date))) {
+            return -1
+          } else {
+            return 0
+          }
+        })
+        setOrders(data)
+      })
   }
 
   useEffect(getOrders, [])
@@ -57,25 +70,27 @@ export default () => {
       fixed: 'right',
       width: 100,
       render: (_, order) => (
-        <div>
-          <Tooltip title="Editar">
-            <a onClick={() => setEditOrderModal({ visible: true, order })}>
-              <Icon type="edit" />
-            </a>
-          </Tooltip>
-          <Divider type="vertical" />
-          {
-            order.status == 'open' ? (
-              <Tooltip title="Faturar">
-                <a onClick={() => closeOrder(order.referenceCode)}>
-                  <Icon type="dollar" />
-                </a>
-              </Tooltip>
-            ) : (
-              <Icon type="dollar" style={{ color: '#888' }} />
-            )
-          }
-        </div>
+        order.status == 'open' ? (
+          <div>
+            <Tooltip title="Editar">
+              <a onClick={() => setEditOrderModal({ visible: true, order })}>
+                <Icon type="edit" />
+              </a>
+            </Tooltip>
+            <Divider type="vertical" />
+            <Tooltip title="Faturar">
+              <a onClick={() => closeOrder(order.referenceCode)}>
+                <Icon type="dollar" />
+              </a>
+            </Tooltip>
+          </div>
+        ) : (
+          <div>
+            <Icon type="edit" style={{ color: '#888' }} />
+            <Divider type="vertical" />
+            <Icon type="dollar" style={{ color: '#888' }} />
+          </div>
+        )
       ),
     }
   ]
