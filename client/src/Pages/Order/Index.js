@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, PageHeader, Button, Icon, Divider, Tooltip, Tag } from 'antd'
+import { Table, PageHeader, Button, Icon, Divider, Tooltip, Tag, message } from 'antd'
 import useReactRouter from 'use-react-router'
 import axios from 'axios'
 import moment from 'moment'
@@ -18,6 +18,17 @@ export default () => {
   }
 
   useEffect(getOrders, [])
+
+  const closeOrder = id => {
+    axios.put(`/api/Order/${id}/close`)
+      .then(() => {
+        getOrders()
+        message.success('Comanda faturada com sucesso!')
+      })
+      .catch(err => {
+        message.error(err.response.data.message)
+      })
+  }
 
   const columns = [
     {
@@ -52,6 +63,18 @@ export default () => {
               <Icon type="edit" />
             </a>
           </Tooltip>
+          <Divider type="vertical" />
+          {
+            order.status == 'open' ? (
+              <Tooltip title="Faturar">
+                <a onClick={() => closeOrder(order.referenceCode)}>
+                  <Icon type="dollar" />
+                </a>
+              </Tooltip>
+            ) : (
+              <Icon type="dollar" style={{ color: '#888' }} />
+            )
+          }
         </div>
       ),
     }
@@ -90,6 +113,7 @@ export default () => {
       <EditOrderModal
         {...edit_order_modal}
         closeModal={() => setEditOrderModal({ visible: false })}
+        onUpdate={getOrders}
       />
     </div>
   )
