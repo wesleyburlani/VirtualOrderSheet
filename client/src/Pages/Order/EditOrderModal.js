@@ -73,19 +73,26 @@ export default Form.create()(({ visible, order, form, closeModal, onUpdate }) =>
 
   return (
     <Modal
-      title={`${order ? 'Editando' : 'Criando'} comanda`}
+      title={`${order ? (order.status == 'open' ? 'Editando' : 'Historico da ') : 'Criando'} comanda`}
       visible={visible}
       width={600}
       onCancel={close}
-      footer={
-        <>
-          <Button onClick={close}>
-            Cancelar
-          </Button>
-          <Button type="primary" onClick={submit}>
-            {order ? 'Atualizar' : 'Salvar'}
-          </Button>
-        </>
+      footer={ order && order.status == 'open' ? (
+          <>
+            <Button onClick={close}>
+              Cancelar
+            </Button>
+            <Button type="primary" onClick={submit}>
+              {order ? 'Atualizar' : 'Salvar'}
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button onClick={close}>
+              Voltar
+            </Button>
+          </>
+        )
       }
     >
       <Form layout="vertical">
@@ -133,7 +140,8 @@ export default Form.create()(({ visible, order, form, closeModal, onUpdate }) =>
 
           <Divider />
 
-          <div className="form-item-no-margin">
+          {
+            order && order.status == 'open' && (<div className="form-item-no-margin">
             {products.map((id, index) => (
               <Row gutter={16} type="flex" align="bottom">
                 <Col span={18}>
@@ -170,8 +178,8 @@ export default Form.create()(({ visible, order, form, closeModal, onUpdate }) =>
                 </Col>
               </Row>
             ))}
-          </div>
-
+          </div>) 
+        }
         </Row>
       </Form>
     </Modal>

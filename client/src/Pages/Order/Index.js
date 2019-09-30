@@ -86,7 +86,11 @@ export default () => {
           </div>
         ) : (
           <div>
-            <Icon type="edit" style={{ color: '#888' }} />
+            <Tooltip title="Histórico">
+              <a onClick={() => setEditOrderModal({ visible: true, order })}>
+                <Icon type="history" />
+              </a>
+            </Tooltip>
             <Divider type="vertical" />
             <Icon type="dollar" style={{ color: '#888' }} />
           </div>

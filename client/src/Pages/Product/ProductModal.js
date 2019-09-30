@@ -87,7 +87,7 @@ export default Form.create()(({ visible, product, form, closeModal, onUpdate }) 
               )}
             </Form.Item>
           </Col>
-          <Col span={8}>
+          <Col span={24}>
             <Form.Item label="Descrição">
               {getFieldDecorator('description', {
                 
@@ -96,13 +96,7 @@ export default Form.create()(({ visible, product, form, closeModal, onUpdate }) 
               )}
             </Form.Item>
           </Col>
-          <Col span={16}>
-            <Form.Item label="Estoque">
-              {getFieldDecorator('stock')(
-                <Input placeholder="0"/>
-              )}
-            </Form.Item>
-          </Col>
+
          
 
         </Row>
