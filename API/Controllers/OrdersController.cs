@@ -9,9 +9,9 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    public class OrderController : ControllerBase
     {
-        public OrdersController(IOrderSheetService OrderSheetService)
+        public OrderController(IOrderSheetService OrderSheetService)
         {
             this.OrderSheetService = OrderSheetService;
         }
@@ -55,7 +55,7 @@ namespace API.Controllers
         }
 
         // POST api/values
-        [HttpPost("/open")]
+        [HttpPost("open")]
         public ActionResult<OrderSheet> Post([FromBody] OrderSheetCreate orderSheetCpf)
         {
             try
