@@ -22,6 +22,9 @@ namespace API.Models
         [JsonProperty("client_cpf")]
         public string ClientCpf { get; set; }
 
+        [JsonProperty("client")]
+        public Customer Client { get; set; }
+
         [JsonProperty("created_date")]
         public DateTime? CreatedDate { get; set; }
 

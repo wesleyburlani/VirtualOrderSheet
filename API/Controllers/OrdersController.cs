@@ -27,7 +27,7 @@ namespace API.Controllers
             try
             {
                 return Ok(OrderSheetService.GetOrdersSheet(filter: 
-                    c => (c.ClientCpf == clientCpf || string.IsNullOrEmpty(clientCpf)) 
+                    c => (c.Client.Cpf == clientCpf || string.IsNullOrEmpty(clientCpf)) 
                     && (c.Status == status || status == null)));
             }
             catch(Exception e)
@@ -60,7 +60,7 @@ namespace API.Controllers
         {
             try
             {
-                var orderSheet = new OrderSheet{ ClientCpf = orderSheetCpf.ClientCpf };
+                var orderSheet = new OrderSheet{ Client = new Customer{ Cpf = orderSheetCpf.ClientCpf } };
                 return Ok(OrderSheetService.OpenOrderSheet(orderSheet));
             }
             catch(OrderSheetAlreadyExistsException e)

@@ -9,25 +9,38 @@ namespace API.Services
 {
     public class OrderSheetService : IOrderSheetService
     {
-        public OrderSheetService(IOrderSheetDatabase Database, IProductDatabase ProductDatabase)
+        public OrderSheetService(
+                IOrderSheetDatabase Database, 
+                IProductDatabase ProductDatabase,
+                ICustomerDatabase CustomerDatabase)
         {
             this.Database = Database; 
             this.ProductDatabase = ProductDatabase;
+            this.CustomerDatabase = CustomerDatabase;
         }
         IOrderSheetDatabase Database { get; set; }
         IProductDatabase ProductDatabase { get;set; }
+        ICustomerDatabase CustomerDatabase { get; }
 
         public OrderSheet OpenOrderSheet(OrderSheet orderSheet)
         {
             OrderSheet reference = Database.GetOrderSheet(o => o.Status == OrderSheetStatus.open 
-            && o.ClientCpf == orderSheet.ClientCpf);
+                && o.Client.Cpf == orderSheet.Client.Cpf);
             if(reference != null)
                 throw new OrderSheetAlreadyExistsException("Esse cliente já possui uma comanda em aberto");
-            orderSheet.ReferenceCode = Base64Encode(orderSheet.ClientCpf+DateTime.Now.ToString());
+
+            var customerRef = CustomerDatabase.GetCustomer(r => r.Cpf == orderSheet.Client.Cpf);
+
+            if(customerRef == null)
+                throw new CustomerNotFoundException($"Client com CPF {orderSheet.Client.Cpf} não existe");
+
+            orderSheet.ReferenceCode = Base64Encode(orderSheet.Client.Cpf+DateTime.Now.ToString());
             orderSheet.CreatedDate = DateTime.Now;
             orderSheet.Status = OrderSheetStatus.open;
             orderSheet.FinishedDate = null;
             orderSheet.Products = new List<OrderProduct>();
+            orderSheet.Client = customerRef;
+            orderSheet.ClientCpf = orderSheet.Client.Cpf;
             return Database.UpsertOrderSheet(orderSheet);
         }
 
