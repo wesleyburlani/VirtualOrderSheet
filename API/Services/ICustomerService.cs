@@ -15,6 +15,7 @@ namespace API.Services
 
         Customer UpdateCustomer(string cpf, Customer customer);   
 
+        Customer AddCreditCard(string cpf, CreditCard creditCard);     
         string DeleteCustomer(string cpf);
     }
 }

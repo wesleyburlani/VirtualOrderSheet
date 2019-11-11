@@ -17,6 +17,17 @@ namespace API.Services
 
         ICustomerDatabase Database { get; set; }
 
+        public Customer AddCreditCard(string cpf, CreditCard creditCard)
+        {
+            Customer reference = Database.GetCustomer(c => c.Cpf == cpf);
+            if(reference == null)
+                throw new CustomerNotFoundException("Cliente não existe");
+            if (reference.CreditCards == null)
+                reference.CreditCards = new List<CreditCard>();
+            reference.CreditCards.Add(creditCard);
+            return Database.UpsertCustomer(reference);           
+        }
+
         public Customer CreateCustomer(Customer customer)
         {
             Customer reference = Database.GetCustomer(c => c.Cpf == customer.Cpf);

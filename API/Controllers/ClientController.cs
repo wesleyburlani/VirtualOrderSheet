@@ -105,5 +105,19 @@ namespace API.Controllers
                 return StatusCode(500, new ErrorResult(e.Message));
             }
         }
+
+
+        [HttpPost("addcreditcard")]
+        public ActionResult<Customer> AddCreditCard(string cpf, [FromBody] CreditCard creditCard)
+        {
+            try
+            {
+                return Ok(CustomerService.AddCreditCard(cpf, creditCard));
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, new ErrorResult(e.Message));
+            }
+        }
     }
 }
