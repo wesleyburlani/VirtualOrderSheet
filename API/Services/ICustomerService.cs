@@ -17,5 +17,7 @@ namespace API.Services
 
         Customer AddCreditCard(string cpf, CreditCard creditCard);     
         string DeleteCustomer(string cpf);
+
+        LoginResult Login(Login login);
     }
 }

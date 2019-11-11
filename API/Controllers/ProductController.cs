@@ -34,7 +34,7 @@ namespace API.Controllers
 
         // GET api/values/5
         [HttpGet("{referenceCode}")]
-        public ActionResult<Product> Get(string referenceCode)
+        public ActionResult<Product> GetList(string referenceCode)
         {
             try
             {
