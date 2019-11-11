@@ -1,86 +1,100 @@
 import React, { useEffect, useState } from 'react'
-import { Table, PageHeader, Button, Icon, Divider, Tooltip } from 'antd'
+import { Table, PageHeader, Button, Icon, Divider, Tooltip, Tag, message } from 'antd'
 import useReactRouter from 'use-react-router'
 import axios from 'axios'
-import OrderModal from './OrderModal'
+import moment from 'moment'
+import NewOrderModal from './NewOrderModal'
+import EditOrderModal from './EditOrderModal'
 
 export default () => {
   const { history } = useReactRouter()
-  const [order_modal, setOrderModal] = useState({})
+  const [edit_order_modal, setEditOrderModal] = useState({})
+  const [new_order_modal_visible, setNewOrderModalVisible] = useState(false)
   const [orders, setOrders] = useState(null)
 
   const getOrders = () => {
     axios.get('/api/Order')
-      .then(result => setOrders(result.data))
+      .then(result => {
+        const data = result.data.sort((a, b) => {
+          if (!a.finished_date) return -1
+
+          if (moment(a.finished_date).isBefore(moment(b.finished_date))) {
+            return 1
+          } else if (moment(a.finished_date).isAfter(moment(b.finished_date))) {
+            return -1
+          } else {
+            return 0
+          }
+        })
+        setOrders(data)
+      })
   }
 
   useEffect(getOrders, [])
 
-  const dataSource = [
-    {
-      id: 10,
-      enter_date: '02/11/2019 - 19:00',
-      exit_date: '',
-      value: 100.0,
-      status: 'Pago',
-      client: {
-        name: 'Anthony'
-      },
-    },
-    {
-      id: 11,
-      enter_date: '02/11/2019 - 19:05',
-      exit_date: '',
-      value: 105.0,
-      status: 'Pago',
-      client: {
-        name: 'Pamela'
-      },
-    },
-    {
-      id: 12,
-      enter_date: '02/11/2019 - 19:07',
-      exit_date: '',
-      value: 155.0,
-      status: 'Pago',
-      client: {
-        name: 'Cleisson'
-      },
-    },
-  ]
+  const closeOrder = id => {
+    axios.put(`/api/Order/${id}/close`)
+      .then(() => {
+        getOrders()
+        message.success('Comanda faturada com sucesso!')
+      })
+      .catch(err => {
+        message.error(err.response.data.message)
+      })
+  }
 
   const columns = [
     {
       title: 'Cliente',
-      dataIndex: 'client_cpf',
+      dataIndex: 'client.name',
     }, {
       title: 'Entrada',
       dataIndex: 'created_date',
+      render: date => moment(date).format('DD/MM/YYYY HH:mm'),
     }, {
       title: 'Saída',
       dataIndex: 'finished_date',
+      render: date => date ? moment(date).format('DD/MM/YYYY HH:mm') : '',
     }, {
       title: 'Status',
       dataIndex: 'status',
+      align: 'center',
+      render: status => (
+        status === 'open'
+          ? <Tag color="green">Em aberto</Tag>
+          : <Tag>Finalizado</Tag>
+      )
     }, {
       title: 'Ações',
       key: 'actions',
       fixed: 'right',
       width: 100,
       render: (_, order) => (
-        <div>
-          <Tooltip title="Editar">
-            <a onClick={() => setOrderModal({ visible: true, order })}>
-              <Icon type="edit" />
-            </a>
-          </Tooltip>
-          <Divider type="vertical" />
-          <Tooltip title="Excluir">
-            <a style={{ color: 'red' }}>
-              <Icon type="delete" />
-            </a>
-          </Tooltip>
-        </div>
+        order.status == 'open' ? (
+          <div>
+            <Tooltip title="Editar">
+              <a onClick={() => setEditOrderModal({ visible: true, order })}>
+                <Icon type="edit" />
+              </a>
+            </Tooltip>
+            <Divider type="vertical" />
+            <Tooltip title="Faturar">
+              <a onClick={() => closeOrder(order.referenceCode)}>
+                <Icon type="dollar" />
+              </a>
+            </Tooltip>
+          </div>
+        ) : (
+          <div>
+            <Tooltip title="Histórico">
+              <a onClick={() => setEditOrderModal({ visible: true, order })}>
+                <Icon type="history" />
+              </a>
+            </Tooltip>
+            <Divider type="vertical" />
+            <Icon type="dollar" style={{ color: '#888' }} />
+          </div>
+        )
       ),
     }
   ]
@@ -95,7 +109,7 @@ export default () => {
             key="new"
             type="primary"
             icon="plus"
-            onClick={() => setOrderModal({ visible: true })}
+            onClick={() => setNewOrderModalVisible(true)}
           >
             Criar comanda
           </Button>
@@ -109,9 +123,15 @@ export default () => {
         rowKey={obj => obj.referenceCode}
       />
 
-      <OrderModal
-        {...order_modal}
-        closeModal={() => setOrderModal({})}
+      <NewOrderModal
+        visible={new_order_modal_visible}
+        closeModal={() => setNewOrderModalVisible(false)}
+        onUpdate={getOrders}
+      />
+
+      <EditOrderModal
+        {...edit_order_modal}
+        closeModal={() => setEditOrderModal({ visible: false })}
         onUpdate={getOrders}
       />
     </div>

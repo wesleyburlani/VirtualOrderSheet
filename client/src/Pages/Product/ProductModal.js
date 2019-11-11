@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
-import { Modal, Button, Form, Row, Col, Input, message } from 'antd'
+import { Modal, Button, Form, Row, Col, Input, InputNumber, message } from 'antd'
 import axios from 'axios'
+import { currencyFormatter, currencyParser } from '../../Utils'
 
 export default Form.create()(({ visible, product, form, closeModal, onUpdate }) => {
   const { getFieldDecorator, setFieldsValue } = form
@@ -74,13 +75,19 @@ export default Form.create()(({ visible, product, form, closeModal, onUpdate }) 
           <Col span={6}>
             <Form.Item label="Preço">
               {getFieldDecorator('price', {
+                initialValue: 0,
                 rules: [{ required: true, message: 'Informe o preço'}]
               })(
-                <Input placeholder="0.00"/>
+                <InputNumber
+                  formatter={currencyFormatter}
+                  parser={currencyParser}
+                  min={0}
+                  style={{ width: '100%' }}
+                />
               )}
             </Form.Item>
           </Col>
-          <Col span={8}>
+          <Col span={24}>
             <Form.Item label="Descrição">
               {getFieldDecorator('description', {
                 
@@ -89,13 +96,7 @@ export default Form.create()(({ visible, product, form, closeModal, onUpdate }) 
               )}
             </Form.Item>
           </Col>
-          <Col span={16}>
-            <Form.Item label="Estoque">
-              {getFieldDecorator('stock')(
-                <Input placeholder="0"/>
-              )}
-            </Form.Item>
-          </Col>
+
          
 
         </Row>

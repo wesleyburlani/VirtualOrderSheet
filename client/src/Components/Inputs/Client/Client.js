@@ -24,6 +24,10 @@ export default props => {
       showSearch
       placeholder="Selecione um cliente"
       style={{ width: '100%' }}
+      filterOption={(input, option) =>
+        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
+      optionFilterProp="children"
       {...props}
     >
       {clients.map(client => (

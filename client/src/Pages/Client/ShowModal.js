@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Button, Row, Col, Table } from 'antd'
+import { Modal, Button, Row, Col, Table, Tag } from 'antd'
 import axios from 'axios'
+import moment from 'moment'
 
 export default ({ visible, client, closeModal }) => {
   const [orders, setOrders] = useState(null)
   
-  useEffect(() => {
+
+  useEffect( () => {
     if (visible && client)
-      axios.get(`/api/Order/${client.client_cpf}`)
+      axios.get(`/api/Order?clientCpf=${client.cpf}`)
         .then(result => {
           setOrders(result.data)
         })
@@ -16,30 +18,47 @@ export default ({ visible, client, closeModal }) => {
   const close = () => {
     closeModal()
   }
-
-  const submit = () => {
-    
-  }
+  
   
   const columns = [
-    {
-      title: 'Código',
-      dataIndex: 'referenceCode',
-    },
+   
     {
       title: 'Data/Hora de Entrada',
       dataIndex: 'created_date',
+      render: date => moment(date).format('DD/MM/YYYY HH:mm')
     },
     {
       title: 'Data/Hora de Saída',
       dataIndex: 'finished_date',
-    }
-    //{
-    //title: 'Valor',
-    //  dataIndex: 'total',  
-    //}, aqui vem o calculo do total da comanda
-    
+      render: date => date ? moment(date).format('DD/MM/YYYY HH:mm') : ''
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      render: status => (
+        status == 'open' ? (
+          <Tag color="green">
+            Em aberto
+          </Tag>
+        ) : (
+          <Tag>
+          Finalizado
+          </Tag>)
+      )
+    }, 
+    {
+      title: 'Valor',
+      key: 'total',
+      render: (_, order) => {
+        const products = order.products
+        const total = products.reduce((acc, curr) => acc + (curr.quantity * curr.price ), 0)
+        return total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+
+      }
+
+    }, 
   ]
+
 
 
   return (
@@ -52,9 +71,6 @@ export default ({ visible, client, closeModal }) => {
         <>
           <Button onClick={close}>
             Voltar
-          </Button>
-          <Button type="primary" onClick={submit}>
-            {'Atualizar'}
           </Button>
         </>
       }
@@ -72,14 +88,17 @@ export default ({ visible, client, closeModal }) => {
               <p>Telefone: { client.phone } </p> 
             </Col>
           </Row>
-          
+        
+
           <Table
             dataSource={orders}
             columns={columns}
           />
+
         </>
       }
   
     </Modal>
   )
+ 
 }

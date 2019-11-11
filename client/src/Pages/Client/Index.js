@@ -52,7 +52,7 @@ export default () => {
       render: (_, client) => (
         <div>
           <Tooltip title="Visualizar">
-            <a onClick={() => setClientModal({ visible: true, client })}>
+            <a onClick={() => setShowModal({ visible: true, client })}>
               <Icon type="eye" />
             </a>
           </Tooltip>
