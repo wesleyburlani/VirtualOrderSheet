@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj": {}
+    "/Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/API.csproj": {}
   },
   "projects": {
-    "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj": {
+    "/Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj",
+        "projectUniqueName": "/Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/API.csproj",
         "projectName": "API",
-        "projectPath": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj",
-        "packagesPath": "/home/aluno-uffs/.nuget/packages/",
-        "outputPath": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/obj/",
+        "projectPath": "/Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/API.csproj",
+        "packagesPath": "/Users/wesleyburlani/.nuget/packages/",
+        "outputPath": "/Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/aluno-uffs/.nuget/NuGet/NuGet.Config"
+          "/Users/wesleyburlani/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
@@ -74,10 +74,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
         }
       }
     }

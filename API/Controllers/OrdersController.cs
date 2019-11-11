@@ -20,7 +20,7 @@ namespace API.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<OrderSheet>> Get(
+        public ActionResult<IEnumerable<OrderSheet>> GetList(
             [FromQuery]string clientCpf = null, 
             [FromQuery]OrderSheetStatus? status = null)
         {

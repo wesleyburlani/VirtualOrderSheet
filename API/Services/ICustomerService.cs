@@ -16,5 +16,7 @@ namespace API.Services
         Customer UpdateCustomer(string cpf, Customer customer);   
 
         string DeleteCustomer(string cpf);
+
+        LoginResult Login(Login login);
     }
 }

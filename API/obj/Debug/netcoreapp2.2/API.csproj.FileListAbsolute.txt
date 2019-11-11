@@ -4,7 +4,6 @@
 /Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/API.dll
 /Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/API.pdb
 /Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.csprojAssemblyReference.cache
-/Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.csproj.CoreCompileInputs.cache
 /Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.RazorAssemblyInfo.cache
 /Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.RazorAssemblyInfo.cs
 /Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.AssemblyInfoInputs.cache
@@ -40,3 +39,6 @@
 /home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.RazorTargetAssemblyInfo.cache
 /home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.dll
 /home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.pdb
+/Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/appsettings.Development.json
+/Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/appsettings.json
+/Users/wesleyburlani/Google Drive/GP Bares/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/Properties/launchSettings.json

@@ -20,7 +20,7 @@ namespace API.Controllers
         ICustomerService CustomerService { get; set; }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Customer>> Get([FromQuery]string name = null, [FromQuery]string email = null)
+        public ActionResult<IEnumerable<Customer>> GetList([FromQuery]string name = null, [FromQuery]string email = null)
         {
             try
             {   
@@ -99,6 +99,19 @@ namespace API.Controllers
             catch(CustomerNotFoundException e)
             {
                 return StatusCode(404, new ErrorResult(e.Message));
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, new ErrorResult(e.Message));
+            }
+        }
+
+        [HttpPost("login")]
+        public ActionResult<LoginResult> Login([FromBody] Login login)
+        {
+            try
+            {
+                return Ok(CustomerService.Login(login));
             }
             catch(Exception e)
             {
