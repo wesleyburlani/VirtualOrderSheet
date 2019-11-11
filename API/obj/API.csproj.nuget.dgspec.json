@@ -1,21 +1,18 @@
 {
   "format": 1,
   "restore": {
-    "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj": {}
+    "/home/aluno-uffs/VirtualOrderSheet/API/API.csproj": {}
   },
   "projects": {
-    "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj": {
+    "/home/aluno-uffs/VirtualOrderSheet/API/API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj",
+        "projectUniqueName": "/home/aluno-uffs/VirtualOrderSheet/API/API.csproj",
         "projectName": "API",
-        "projectPath": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/API.csproj",
+        "projectPath": "/home/aluno-uffs/VirtualOrderSheet/API/API.csproj",
         "packagesPath": "/home/aluno-uffs/.nuget/packages/",
-        "outputPath": "/home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/obj/",
+        "outputPath": "/home/aluno-uffs/VirtualOrderSheet/API/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
-        ],
         "configFilePaths": [
           "/home/aluno-uffs/.nuget/NuGet/NuGet.Config"
         ],
@@ -74,10 +71,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
         }
       }
     }

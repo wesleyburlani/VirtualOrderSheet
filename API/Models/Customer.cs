@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
@@ -25,5 +26,8 @@ namespace API.Models
 
         [JsonProperty("phone")]
         public string Phone { get; set; }
+
+        [JsonProperty("credit_cards")]
+        public List<CreditCard> CreditCards { get; set; }
     }
 }

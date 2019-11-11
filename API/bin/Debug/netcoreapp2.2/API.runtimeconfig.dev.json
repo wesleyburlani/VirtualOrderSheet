@@ -1,9 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "/Users/wesleyburlani/.dotnet/store/|arch|/|tfm|",
-      "/Users/wesleyburlani/.nuget/packages",
-      "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+      "/home/aluno-uffs/.dotnet/store/|arch|/|tfm|",
+      "/home/aluno-uffs/.nuget/packages"
     ]
   }
 }

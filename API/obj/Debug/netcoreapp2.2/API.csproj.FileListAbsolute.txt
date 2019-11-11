@@ -40,3 +40,19 @@
 /home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.RazorTargetAssemblyInfo.cache
 /home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.dll
 /home/aluno-uffs/Documentos/Cleisson Vieira Raimundi/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.pdb
+/home/aluno-uffs/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/appsettings.Development.json
+/home/aluno-uffs/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/appsettings.json
+/home/aluno-uffs/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/Properties/launchSettings.json
+/home/aluno-uffs/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/API.deps.json
+/home/aluno-uffs/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/API.runtimeconfig.json
+/home/aluno-uffs/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/API.runtimeconfig.dev.json
+/home/aluno-uffs/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/API.dll
+/home/aluno-uffs/VirtualOrderSheet/API/bin/Debug/netcoreapp2.2/API.pdb
+/home/aluno-uffs/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.csprojAssemblyReference.cache
+/home/aluno-uffs/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.RazorAssemblyInfo.cache
+/home/aluno-uffs/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.RazorAssemblyInfo.cs
+/home/aluno-uffs/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.AssemblyInfoInputs.cache
+/home/aluno-uffs/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.AssemblyInfo.cs
+/home/aluno-uffs/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.RazorTargetAssemblyInfo.cache
+/home/aluno-uffs/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.dll
+/home/aluno-uffs/VirtualOrderSheet/API/obj/Debug/netcoreapp2.2/API.pdb
