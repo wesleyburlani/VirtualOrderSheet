@@ -90,19 +90,19 @@ namespace API.Repositories.Storage
 
         private IMongoCollection<Product> GetProductsCollection()
         {
-            return MongoClient.GetDatabase("virtualOrderSheet")
+            return MongoClient.GetDatabase("heroku_2kwhfcr8")
                 .GetCollection<Product>("products");
         }
         
         private IMongoCollection<Customer> GetCustomersCollection()
         {
-            return MongoClient.GetDatabase("virtualOrderSheet")
+            return MongoClient.GetDatabase("heroku_2kwhfcr8")
                 .GetCollection<Customer>("cutomers");
         }
 
         private IMongoCollection<OrderSheet> GetOrderSheetsCollection()
         {
-            return MongoClient.GetDatabase("virtualOrderSheet")
+            return MongoClient.GetDatabase("heroku_2kwhfcr8")
                 .GetCollection<OrderSheet>("orderSheets");
         }
     }
